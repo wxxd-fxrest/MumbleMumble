@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mumblemumble/constants/sizes.dart';
+import 'package:mumblemumble/features/main/main_home_screen.dart';
 
 void main() {
   runApp(const MumbleMumble());
@@ -18,15 +19,15 @@ class MumbleMumble extends StatelessWidget {
         appBarTheme: const AppBarTheme(
           elevation: 0,
           foregroundColor: Colors.black,
-          backgroundColor: Colors.white,
+          backgroundColor: Color(0xFFE65100),
           titleTextStyle: TextStyle(
-            color: Colors.black,
-            fontSize: Sizes.size16 + Sizes.size2,
-            fontWeight: FontWeight.w600,
+            color: Colors.white,
+            fontSize: Sizes.size20,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ),
-      // home: const InterestsScreen(),
+      home: const MainHomeScreen(),
     );
   }
 }
