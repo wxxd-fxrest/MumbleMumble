@@ -13,12 +13,13 @@ class MumbleMumble extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Mumble Mumble',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
         primaryColor: const Color(0xFFE9435A),
         appBarTheme: const AppBarTheme(
           elevation: 0,
-          foregroundColor: Colors.black,
+          foregroundColor: Colors.white,
           backgroundColor: Color(0xFFE65100),
           titleTextStyle: TextStyle(
             color: Colors.white,

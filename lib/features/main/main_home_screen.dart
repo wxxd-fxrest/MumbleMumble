@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:mumblemumble/constants/gaps.dart';
 import 'package:mumblemumble/constants/sizes.dart';
+import 'package:mumblemumble/features/main/drawerHeader_screen.dart';
 
 class MainHomeScreen extends StatefulWidget {
   const MainHomeScreen({super.key});
@@ -42,6 +41,8 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
     setState(() {});
   }
 
+  // AssetImage('assets/image/paper texture.jpg'),
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,321 +50,200 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
         title: const Text(
           "Mumble-Mumble",
         ),
-      ),
-      body: ListView.builder(
-        itemCount: postList.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: Sizes.size14,
-              vertical: Sizes.size10,
-            ),
-            child: Container(
-              clipBehavior: Clip.hardEdge,
-              padding: const EdgeInsets.only(
-                bottom: Sizes.size6,
-                // left: Sizes.size14,
-                // right: Sizes.size14,
-              ),
-              decoration: const BoxDecoration(
-                color: Color(0xFFF09666),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(Sizes.size8),
+        leading: Builder(
+          builder: (BuildContext context) {
+            return GestureDetector(
+              onTap: () => Scaffold.of(context).openDrawer(),
+              child: Padding(
+                padding: const EdgeInsets.all(
+                  Sizes.size6,
+                ),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(500),
+                    ),
+                    color: Colors.amber,
+                  ),
+                  child: ClipRRect(
+                    child: Image.asset(
+                      fit: BoxFit.cover,
+                      'assets/image/Trash-mumble.png',
+                    ),
+                  ),
                 ),
               ),
-              child: Column(
-                children: [
-                  Container(
-                    color: Colors.amber,
-                    padding: const EdgeInsets.symmetric(
-                      vertical: Sizes.size10,
-                      horizontal: Sizes.size14,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            const CircleAvatar(
-                              radius: 18,
-                              foregroundImage: NetworkImage(
-                                  "https://i.pinimg.com/564x/07/aa/a9/07aaa98dd45f1c670e755a0bc0ee6ec0.jpg"),
-                            ),
-                            Gaps.h10,
-                            RichText(
-                              text: TextSpan(
-                                text: postList[index]["title"],
-                                style: const TextStyle(
-                                  fontSize: Sizes.size16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: const [
-                            Icon(
-                              FontAwesomeIcons.image,
-                              color: Colors.black,
-                              size: Sizes.size16 + Sizes.size2,
-                            ),
-                            Gaps.h10,
-                            Icon(
-                              FontAwesomeIcons.ellipsisVertical,
-                              color: Colors.black,
-                              size: Sizes.size16 + Sizes.size2,
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  Container(
-                    // padding: const EdgeInsets.all(
-                    //   // Sizes.size12,
-                    // ),
-                    decoration: const BoxDecoration(
-                      color: Colors.blue,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Gaps.h2,
-                        const Icon(
-                          FontAwesomeIcons.arrowLeft,
-                          color: Colors.black,
-                          size: Sizes.size16 + Sizes.size2,
-                        ),
-                        Container(
-                          width: Sizes.size96 +
-                              Sizes.size96 +
-                              Sizes.size96 +
-                              Sizes.size32,
-                          height: 150,
-                          color: Colors.red,
-                          padding: const EdgeInsets.symmetric(
-                            vertical: Sizes.size5,
-                            horizontal: Sizes.size5,
-                          ),
-                          child: RichText(
-                            text: TextSpan(
-                              text: postList[index]["color"],
-                              style: const TextStyle(
-                                fontSize: Sizes.size12,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const Icon(
-                          FontAwesomeIcons.arrowRight,
-                          color: Colors.black,
-                          size: Sizes.size16 + Sizes.size2,
-                        ),
-                        Gaps.h2,
-                      ],
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: Sizes.size44,
-                      vertical: Sizes.size4,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Icon(
-                          FontAwesomeIcons.faceAngry,
-                          color: Colors.black,
-                          size: Sizes.size20,
-                        ),
-                        Icon(
-                          FontAwesomeIcons.heart,
-                          color: Colors.black,
-                          size: Sizes.size20,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+            );
+          },
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(Sizes.size12),
+            child: Image.asset(
+              fit: BoxFit.cover,
+              'assets/image/Trash-mumble.png',
             ),
-          );
-          // return ListTile(
-          //   title: Container(
-          //     padding: const EdgeInsets.only(
-          // top: Sizes.size10,
-          // bottom: Sizes.size12,
-          // left: Sizes.size14,
-          // right: Sizes.size14,
-          //     ),
-          //     decoration: const BoxDecoration(
-          //       color: Color(0xFFF09666),
-          //       borderRadius: BorderRadius.all(
-          //         Radius.circular(Sizes.size8),
-          //       ),
-          //     ),
-          //     child: Column(
-          //       crossAxisAlignment: CrossAxisAlignment.stretch,
-          //       children: [
-          //         Row(
-          //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //           children: [
-          //             SizedBox(
-          //               width: 100,
-          //               child: Row(
-          //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //                 children: [
-          //                   Container(
-          //                     padding: const EdgeInsets.symmetric(
-          //                       vertical: Sizes.size10,
-          //                       horizontal: Sizes.size10,
-          //                     ),
-          //                     decoration: const BoxDecoration(
-          //                       color: Colors.blue,
-          //                     ),
-          //                     child: ListTile(
-          //                       minVerticalPadding: Sizes.size16,
-          // title: const CircleAvatar(
-          //   radius: 18,
-          //   foregroundImage: NetworkImage(
-          //       "https://i.pinimg.com/564x/07/aa/a9/07aaa98dd45f1c670e755a0bc0ee6ec0.jpg"),
-          // ),
-          // subtitle: RichText(
-          //   text: TextSpan(
-          //     text: postList[index]["title"],
-          //     style: const TextStyle(
-          //       fontSize: Sizes.size16,
-          //       fontWeight: FontWeight.bold,
-          //                           ),
-          //                         ),
-          //                       ),
-          //                     ),
-          //                   ),
-          //                 ],
-          //               ),
-          //             ),
-          //             Gaps.h10,
-          //             Row(
-          //               children: const [
-          //                 Icon(
-          //                   FontAwesomeIcons.image,
-          // color: Colors.black,
-          // size: Sizes.size16 + Sizes.size2,
-          //                 ),
-          //                 Gaps.h14,
-          //                 Icon(
-          //                   FontAwesomeIcons.ellipsisVertical,
-          //                   color: Colors.black,
-          //                   size: Sizes.size16 + Sizes.size2,
-          //                 ),
-          //               ],
-          //             ),
-          //           ],
-          //         ),
-          //         Stack(
-          //           children: [
-          //             Container(
-          //               padding: const EdgeInsets.only(
-          //                 left: Sizes.size3,
-          //                 right: Sizes.size3,
-          //               ),
-          //               child: Row(
-          //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //                 children: [
-          //                   GestureDetector(
-          //                     onTap: () => _onPageClick,
-          //                     child: Icon(
-          //                       _page ? FontAwesomeIcons.arrowLeft : null,
-          //                       color: Colors.black,
-          //                       size: Sizes.size16,
-          //                     ),
-          //                   ),
-          //                   if (!_page == true)
-          //                     Container(
-          //                       width: 320,
-          //                       height: 120,
-          //                       padding: const EdgeInsets.symmetric(
-          //                         vertical: Sizes.size10,
-          //                         horizontal: Sizes.size10,
-          //                       ),
-          //                       // decoration: const BoxDecoration(
-          //                       //   color: Colors.green,
-          //                       // ),
-          //                       child: const Text(
-          //                         "내용",
-          //                         style: TextStyle(
-          //                           fontSize: Sizes.size14,
-          //                         ),
-          //                         textAlign: TextAlign.start,
-          //                       ),
-          //                     ),
-          //                   if (_page == true)
-          //                     Container(
-          //                       width: 320,
-          //                       height: 120,
-          //                       padding: const EdgeInsets.symmetric(
-          //                         vertical: Sizes.size10,
-          //                         horizontal: Sizes.size10,
-          //                       ),
-          //                       // decoration: const BoxDecoration(
-          //                       //   color: Colors.green,
-          //                       // ),
-          //                       child: const Text(
-          //                         "music",
-          //                         style: TextStyle(
-          //                           fontSize: Sizes.size14,
-          //                         ),
-          //                         textAlign: TextAlign.start,
-          //                       ),
-          //                     ),
-          //                   GestureDetector(
-          //                     onTap: _onPageClick,
-          //                     child: Icon(
-          //                       !_page ? FontAwesomeIcons.arrowRight : null,
-          //                       color: Colors.black,
-          //                       size: Sizes.size16,
-          //                     ),
-          //                   ),
-          //                 ],
-          //               ),
-          //             ),
-          //           ],
-          //         ),
-          //         Gaps.v2,
-          //         Container(
-          //           padding: const EdgeInsets.symmetric(
-          //             vertical: Sizes.size5,
-          //             horizontal: Sizes.size48,
-          //           ),
-          //           child: Row(
-          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //             children: [
-          // const Icon(
-          //   FontAwesomeIcons.faceAngry,
-          //   color: Colors.black,
-          //   size: Sizes.size16,
-          // ),
-          // GestureDetector(
-          //   onTap: _onHeartClick,
-          //   child: Icon(
-          //     !_heart
-          //         ? FontAwesomeIcons.heart
-          //         : FontAwesomeIcons.solidHeart,
-          //     color: Colors.black,
-          //     size: Sizes.size16,
-          //   ),
-          //               ),
-          //             ],
-          //           ),
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          // );
-        },
+          ),
+        ],
       ),
+      drawer: Drawer(
+        child: ListView(
+          children: const [
+            DrawerHeaderScreen(
+              image: "assets/image/Trash-mumble.png",
+              account: "asldfj123",
+              following: 123,
+              followers: 345,
+              // Image.asset(
+              //   fit: BoxFit.cover,
+              //   'assets/image/Trash-mumble.png',
+              // ),
+            ),
+          ],
+        ),
+      ),
+      // body: ListView.builder(
+      //   itemCount: postList.length,
+      //   itemBuilder: (BuildContext context, int index) {
+      //   return Padding(
+      //     padding: const EdgeInsets.symmetric(
+      //       horizontal: Sizes.size14,
+      //       vertical: Sizes.size10,
+      //     ),
+      //     child: Container(
+      //       clipBehavior: Clip.hardEdge,
+      //       padding: const EdgeInsets.only(
+      //         bottom: Sizes.size6,
+      //         // left: Sizes.size14,
+      //         // right: Sizes.size14,
+      //       ),
+      //       decoration: const BoxDecoration(
+      //         color: Color(0xFFF09666),
+      //         borderRadius: BorderRadius.all(
+      //           Radius.circular(Sizes.size8),
+      //         ),
+      //       ),
+      //       child: Column(
+      //         children: [
+      //           Container(
+      //             color: Colors.amber,
+      //             padding: const EdgeInsets.symmetric(
+      //               vertical: Sizes.size10,
+      //               horizontal: Sizes.size14,
+      //             ),
+      //             child: Row(
+      //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //               children: [
+      //                 Row(
+      //                   children: [
+      //                     const CircleAvatar(
+      //                       radius: 18,
+      //                       foregroundImage: NetworkImage(
+      //                           "https://i.pinimg.com/564x/07/aa/a9/07aaa98dd45f1c670e755a0bc0ee6ec0.jpg"),
+      //                     ),
+      //                     Gaps.h10,
+      //                     RichText(
+      //                       text: TextSpan(
+      //                         text: postList[index]["title"],
+      //                         style: const TextStyle(
+      //                           fontSize: Sizes.size16,
+      //                           fontWeight: FontWeight.bold,
+      //                         ),
+      //                       ),
+      //                     ),
+      //                   ],
+      //                 ),
+      //                 Row(
+      //                   children: const [
+      //                     Icon(
+      //                       FontAwesomeIcons.image,
+      //                       color: Colors.black,
+      //                       size: Sizes.size16 + Sizes.size2,
+      //                     ),
+      //                     Gaps.h10,
+      //                     Icon(
+      //                       FontAwesomeIcons.ellipsisVertical,
+      //                       color: Colors.black,
+      //                       size: Sizes.size16 + Sizes.size2,
+      //                     ),
+      //                   ],
+      //                 )
+      //               ],
+      //             ),
+      //           ),
+      //           Container(
+      //             // padding: const EdgeInsets.all(
+      //             //   // Sizes.size12,
+      //             // ),
+      //             decoration: const BoxDecoration(
+      //               color: Colors.blue,
+      //             ),
+      //             child: Row(
+      //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //               children: [
+      //                 Gaps.h2,
+      //                 const Icon(
+      //                   FontAwesomeIcons.arrowLeft,
+      //                   color: Colors.black,
+      //                   size: Sizes.size16 + Sizes.size2,
+      //                 ),
+      //                 Container(
+      //                   width: Sizes.size96 +
+      //                       Sizes.size96 +
+      //                       Sizes.size96 +
+      //                       Sizes.size32,
+      //                   height: 150,
+      //                   color: Colors.red,
+      //                   padding: const EdgeInsets.symmetric(
+      //                     vertical: Sizes.size5,
+      //                     horizontal: Sizes.size5,
+      //                   ),
+      //                   child: RichText(
+      //                     text: TextSpan(
+      //                       text: postList[index]["color"],
+      //                       style: const TextStyle(
+      //                         fontSize: Sizes.size12,
+      //                         fontWeight: FontWeight.bold,
+      //                       ),
+      //                     ),
+      //                   ),
+      //                 ),
+      //                 const Icon(
+      //                   FontAwesomeIcons.arrowRight,
+      //                   color: Colors.black,
+      //                   size: Sizes.size16 + Sizes.size2,
+      //                 ),
+      //                 Gaps.h2,
+      //               ],
+      //             ),
+      //           ),
+      //           Container(
+      //             padding: const EdgeInsets.symmetric(
+      //               horizontal: Sizes.size44,
+      //               vertical: Sizes.size4,
+      //             ),
+      //             child: Row(
+      //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //               children: const [
+      //                 Icon(
+      //                   FontAwesomeIcons.faceAngry,
+      //                   color: Colors.black,
+      //                   size: Sizes.size20,
+      //                 ),
+      //                 Icon(
+      //                   FontAwesomeIcons.heart,
+      //                   color: Colors.black,
+      //                   size: Sizes.size20,
+      //                 ),
+      //               ],
+      //             ),
+      //           ),
+      //         ],
+      //       ),
+      //     ),
+      //   );
+      //   },
+      // ),
     );
   }
 }
