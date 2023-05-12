@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mumblemumble/constants/sizes.dart';
-import 'package:mumblemumble/features/main/drawerHeader_screen.dart';
+import 'package:mumblemumble/features/main/Card_scrren.dart';
+import 'package:mumblemumble/features/main/homeDrawer.dart';
 
 class MainHomeScreen extends StatefulWidget {
   const MainHomeScreen({super.key});
@@ -10,6 +12,7 @@ class MainHomeScreen extends StatefulWidget {
 }
 
 class _MainHomeScreenState extends State<MainHomeScreen> {
+  int _currentScreen = 0;
   bool _heart = false;
   bool _page = false;
 
@@ -56,14 +59,14 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
               onTap: () => Scaffold.of(context).openDrawer(),
               child: Padding(
                 padding: const EdgeInsets.all(
-                  Sizes.size6,
+                  Sizes.size9,
                 ),
                 child: Container(
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(
                       Radius.circular(500),
                     ),
-                    color: Colors.amber,
+                    color: Colors.white,
                   ),
                   child: ClipRRect(
                     child: Image.asset(
@@ -76,189 +79,42 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
             );
           },
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(Sizes.size12),
-            child: Image.asset(
-              fit: BoxFit.cover,
-              'assets/image/Trash-mumble.png',
+      ),
+      drawer: const homeDrawer(),
+      body: const CardScreen(),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentScreen,
+        onTap: (int index) {
+          setState(() {
+            _currentScreen = index;
+          });
+        },
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        type: BottomNavigationBarType.fixed,
+        items: [
+          BottomNavigationBarItem(
+            icon: (_currentScreen == 1
+                ? Icon(
+                    FontAwesomeIcons.house,
+                    color: Colors.grey[400],
+                  )
+                : const Icon(
+                    FontAwesomeIcons.house,
+                    color: Colors.blue,
+                  )),
+            label: "Home",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              _currentScreen == 1
+                  ? FontAwesomeIcons.solidUser
+                  : FontAwesomeIcons.user,
             ),
+            label: "Profile",
           ),
         ],
       ),
-      drawer: Drawer(
-        child: ListView(
-          children: const [
-            DrawerHeaderScreen(
-              image: "assets/image/Trash-mumble.png",
-              account: "asldfj123",
-              following: 123,
-              followers: 345,
-              // Image.asset(
-              //   fit: BoxFit.cover,
-              //   'assets/image/Trash-mumble.png',
-              // ),
-            ),
-          ],
-        ),
-      ),
-      // body: ListView.builder(
-      //   itemCount: postList.length,
-      //   itemBuilder: (BuildContext context, int index) {
-      //   return Padding(
-      //     padding: const EdgeInsets.symmetric(
-      //       horizontal: Sizes.size14,
-      //       vertical: Sizes.size10,
-      //     ),
-      //     child: Container(
-      //       clipBehavior: Clip.hardEdge,
-      //       padding: const EdgeInsets.only(
-      //         bottom: Sizes.size6,
-      //         // left: Sizes.size14,
-      //         // right: Sizes.size14,
-      //       ),
-      //       decoration: const BoxDecoration(
-      //         color: Color(0xFFF09666),
-      //         borderRadius: BorderRadius.all(
-      //           Radius.circular(Sizes.size8),
-      //         ),
-      //       ),
-      //       child: Column(
-      //         children: [
-      //           Container(
-      //             color: Colors.amber,
-      //             padding: const EdgeInsets.symmetric(
-      //               vertical: Sizes.size10,
-      //               horizontal: Sizes.size14,
-      //             ),
-      //             child: Row(
-      //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //               children: [
-      //                 Row(
-      //                   children: [
-      //                     const CircleAvatar(
-      //                       radius: 18,
-      //                       foregroundImage: NetworkImage(
-      //                           "https://i.pinimg.com/564x/07/aa/a9/07aaa98dd45f1c670e755a0bc0ee6ec0.jpg"),
-      //                     ),
-      //                     Gaps.h10,
-      //                     RichText(
-      //                       text: TextSpan(
-      //                         text: postList[index]["title"],
-      //                         style: const TextStyle(
-      //                           fontSize: Sizes.size16,
-      //                           fontWeight: FontWeight.bold,
-      //                         ),
-      //                       ),
-      //                     ),
-      //                   ],
-      //                 ),
-      //                 Row(
-      //                   children: const [
-      //                     Icon(
-      //                       FontAwesomeIcons.image,
-      //                       color: Colors.black,
-      //                       size: Sizes.size16 + Sizes.size2,
-      //                     ),
-      //                     Gaps.h10,
-      //                     Icon(
-      //                       FontAwesomeIcons.ellipsisVertical,
-      //                       color: Colors.black,
-      //                       size: Sizes.size16 + Sizes.size2,
-      //                     ),
-      //                   ],
-      //                 )
-      //               ],
-      //             ),
-      //           ),
-      //           Container(
-      //             // padding: const EdgeInsets.all(
-      //             //   // Sizes.size12,
-      //             // ),
-      //             decoration: const BoxDecoration(
-      //               color: Colors.blue,
-      //             ),
-      //             child: Row(
-      //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //               children: [
-      //                 Gaps.h2,
-      //                 const Icon(
-      //                   FontAwesomeIcons.arrowLeft,
-      //                   color: Colors.black,
-      //                   size: Sizes.size16 + Sizes.size2,
-      //                 ),
-      //                 Container(
-      //                   width: Sizes.size96 +
-      //                       Sizes.size96 +
-      //                       Sizes.size96 +
-      //                       Sizes.size32,
-      //                   height: 150,
-      //                   color: Colors.red,
-      //                   padding: const EdgeInsets.symmetric(
-      //                     vertical: Sizes.size5,
-      //                     horizontal: Sizes.size5,
-      //                   ),
-      //                   child: RichText(
-      //                     text: TextSpan(
-      //                       text: postList[index]["color"],
-      //                       style: const TextStyle(
-      //                         fontSize: Sizes.size12,
-      //                         fontWeight: FontWeight.bold,
-      //                       ),
-      //                     ),
-      //                   ),
-      //                 ),
-      //                 const Icon(
-      //                   FontAwesomeIcons.arrowRight,
-      //                   color: Colors.black,
-      //                   size: Sizes.size16 + Sizes.size2,
-      //                 ),
-      //                 Gaps.h2,
-      //               ],
-      //             ),
-      //           ),
-      //           Container(
-      //             padding: const EdgeInsets.symmetric(
-      //               horizontal: Sizes.size44,
-      //               vertical: Sizes.size4,
-      //             ),
-      //             child: Row(
-      //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //               children: const [
-      //                 Icon(
-      //                   FontAwesomeIcons.faceAngry,
-      //                   color: Colors.black,
-      //                   size: Sizes.size20,
-      //                 ),
-      //                 Icon(
-      //                   FontAwesomeIcons.heart,
-      //                   color: Colors.black,
-      //                   size: Sizes.size20,
-      //                 ),
-      //               ],
-      //             ),
-      //           ),
-      //         ],
-      //       ),
-      //     ),
-      //   );
-      //   },
-      // ),
     );
   }
 }
-
-
-// child: ListTile(
-//   minVerticalPadding = Sizes.size16,
-//   title = RichText(
-//     text: TextSpan(
-//       text: postList[index]["title"],
-//       style: const TextStyle(
-//         fontSize: Sizes.size16,
-//         fontWeight: FontWeight.bold,
-//       ),
-//       // textAlign: TextAlign.center,
-//     ),
-//   ),
-// ),
