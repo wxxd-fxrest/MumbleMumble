@@ -12,6 +12,29 @@ class CardDetailScreen extends StatefulWidget {
   State<CardDetailScreen> createState() => _CardDetailScreenState();
 }
 
+final List<Map> postList = [
+  {
+    "name": "이사라",
+    "account": "@junkypalnter",
+    "text":
+        "우발적이어야 하고, 다른 의학적 이유로 나타난 증상이 아니어야 해요. 제일 첫 번째로 말했던 거나 두 번째 것 중 하나, 그리고 나머지를 전부 충족할 때 이 병명이 확실히 내려오는 건데, 이해하셨어요? 치료는, 완벽히 듣는다고 알려진 약물은 없는데 신경안정제나 항경련제를 쓰기도 해요.",
+    "img": 'assets/image/paper texture.jpg',
+  },
+  {
+    "name": "이주노",
+    "account": "@BringRuinUpon",
+    "text": "",
+    "img": 'assets/image/paper texture.jpg',
+  },
+  {
+    "name": "허윤제",
+    "account": "@RyanGold",
+    "text":
+        "세계문자 가운데 한글,즉 훈민정음은 흔히들 신비로운 문자라 부르곤 합니다. 그것은 세계 문자 가운데 유일하게 한글만이 그것을 만든 사람과 반포일을 알며, 글자를 만든 원리까지 알기 때문입니다. 세계에 이런 문자는 없습니다. 그래서 한글은, 정확히 말해 [훈민정음 해례본](국보 70호)은 진즉에 유네스코 세계기록유산으로 등재되었습니다. ‘한글’이라는 이름은 1910년대 초에 주시경 선생을 비롯한 한글학자들이 쓰기 시작한 것입니다. 여기서 ‘한’이란 크다는 것을 뜻하니, 한글은 ‘큰 글’을 말한다고 하겠습니다.[네이버 지식백과] 한글 - 세상에서 가장 신비한 문자 (위대한 문화유산, 최준식)",
+    "img": 'assets/image/Trash-mumble.png',
+  },
+];
+
 bool _heart = false;
 
 class _CardDetailScreenState extends State<CardDetailScreen> {
@@ -41,6 +64,7 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
         ),
       ),
       body: Container(
+        height: size.height * 0.75,
         padding: const EdgeInsets.symmetric(
           vertical: Sizes.size14,
           horizontal: Sizes.size5,
@@ -144,13 +168,16 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            const Padding(
-                              padding: EdgeInsets.only(
+                            Padding(
+                              padding: const EdgeInsets.only(
                                 right: Sizes.size10,
                               ),
-                              child: Icon(
-                                FontAwesomeIcons.comment,
-                                size: Sizes.size16 + Sizes.size2,
+                              child: GestureDetector(
+                                onTap: () {},
+                                child: const Icon(
+                                  FontAwesomeIcons.comment,
+                                  size: Sizes.size16 + Sizes.size2,
+                                ),
                               ),
                             ),
                             Padding(
@@ -173,82 +200,6 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
                           ],
                         ),
                       ),
-                      // Positioned(
-                      //   bottom: 0,
-                      //   width: size.width,
-                      //   child: Container(
-                      //     color: Theme.of(context).scaffoldBackgroundColor,
-                      //     child: Padding(
-                      //       padding: const EdgeInsets.only(
-                      //         top: Sizes.size14,
-                      //         bottom: Sizes.size36,
-                      //         left: Sizes.size20,
-                      //         right: Sizes.size20,
-                      //       ),
-                      //       child: Row(
-                      //         children: [
-                      //           CircleAvatar(
-                      //             radius: 18,
-                      //             backgroundColor: Colors.grey.shade500,
-                      //             foregroundColor: Colors.white,
-                      //             child: const Text("주노"),
-                      //           ),
-                      //           Gaps.h10,
-                      //           Expanded(
-                      //             child: SizedBox(
-                      //               height: Sizes.size44,
-                      //               child: TextField(
-                      //                 onTap: () {},
-                      //                 expands: true,
-                      //                 minLines: null,
-                      //                 maxLines: null,
-                      //                 textInputAction: TextInputAction.newline,
-                      //                 cursorColor:
-                      //                     Theme.of(context).primaryColor,
-                      //                 decoration: InputDecoration(
-                      //                   hintText: "Write a comment...",
-                      //                   border: OutlineInputBorder(
-                      //                       borderRadius: BorderRadius.circular(
-                      //                         Sizes.size12,
-                      //                       ),
-                      //                       borderSide: BorderSide.none),
-                      //                   filled: true,
-                      //                   fillColor: Colors.grey.shade200,
-                      //                   contentPadding:
-                      //                       const EdgeInsets.symmetric(
-                      //                     horizontal: Sizes.size10,
-                      //                   ),
-                      //                   suffixIcon: Padding(
-                      //                     padding: const EdgeInsets.only(
-                      //                       right: Sizes.size14,
-                      //                     ),
-                      //                     child: Row(
-                      //                       mainAxisSize: MainAxisSize.min,
-                      //                       children: [
-                      //                         Gaps.h8,
-                      //                         GestureDetector(
-                      //                           onTap: () {},
-                      //                           child: FaIcon(
-                      //                             FontAwesomeIcons
-                      //                                 .circleArrowUp,
-                      //                             size: Sizes.size20 +
-                      //                                 Sizes.size2,
-                      //                             color: Theme.of(context)
-                      //                                 .primaryColor,
-                      //                           ),
-                      //                         ),
-                      //                       ],
-                      //                     ),
-                      //                   ),
-                      //                 ),
-                      //               ),
-                      //             ),
-                      //           ),
-                      //         ],
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
                     ],
                   ),
                 ),
