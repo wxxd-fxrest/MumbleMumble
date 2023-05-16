@@ -54,6 +54,13 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
     setState(() {});
   }
 
+  void _onCommentTap(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => Container(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -173,7 +180,7 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
                                 right: Sizes.size10,
                               ),
                               child: GestureDetector(
-                                onTap: () {},
+                                onTap: () => _onCommentTap(context),
                                 child: const Icon(
                                   FontAwesomeIcons.comment,
                                   size: Sizes.size16 + Sizes.size2,

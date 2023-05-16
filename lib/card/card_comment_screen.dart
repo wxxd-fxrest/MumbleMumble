@@ -15,6 +15,12 @@ class _CardCommentScreenState extends State<CardCommentScreen> {
 
   final ScrollController _scrollController = ScrollController();
 
+  void _onStartWriting() {
+    setState(() {
+      _isWriting = true;
+    });
+  }
+
   void _stopWriting() {
     FocusScope.of(context).unfocus();
     setState(() {
@@ -39,7 +45,7 @@ class _CardCommentScreenState extends State<CardCommentScreen> {
           backgroundColor: Colors.grey.shade50,
           automaticallyImplyLeading: false,
           title: const Text(
-            "22796 comments",
+            " comments",
             style: TextStyle(color: Colors.black),
           ),
           actions: [
@@ -139,7 +145,7 @@ class _CardCommentScreenState extends State<CardCommentScreen> {
                           child: SizedBox(
                             height: Sizes.size44,
                             child: TextField(
-                              onTap: () {},
+                              onTap: _onStartWriting,
                               expands: true,
                               minLines: null,
                               maxLines: null,
@@ -164,24 +170,6 @@ class _CardCommentScreenState extends State<CardCommentScreen> {
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      FaIcon(
-                                        FontAwesomeIcons.at,
-                                        color: Colors.grey.shade400,
-                                        size: Sizes.size20 + Sizes.size2,
-                                      ),
-                                      Gaps.h8,
-                                      FaIcon(
-                                        FontAwesomeIcons.gift,
-                                        color: Colors.grey.shade400,
-                                        size: Sizes.size20 + Sizes.size2,
-                                      ),
-                                      Gaps.h8,
-                                      FaIcon(
-                                        FontAwesomeIcons.faceSmile,
-                                        color: Colors.grey.shade400,
-                                        size: Sizes.size20 + Sizes.size2,
-                                      ),
-                                      Gaps.h8,
                                       if (_isWriting)
                                         GestureDetector(
                                           onTap: _stopWriting,

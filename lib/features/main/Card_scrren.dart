@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:mumblemumble/Card/card_detail_screen.dart';
+import 'package:mumblemumble/card/card_comment_screen.dart';
 import 'package:mumblemumble/constants/gaps.dart';
 import 'package:mumblemumble/constants/sizes.dart';
 
@@ -37,17 +37,26 @@ class _CardScreenState extends State<CardScreen> {
     },
   ];
 
-  void _onHeartClick() {
+  void _onHeartClick(BuildContext context) {
     _heart = !_heart;
     setState(() {});
   }
 
-  void _onCardTap() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const CardDetailScreen(),
-      ),
+  // void _onCardTap() {
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (context) => const CardDetailScreen(),
+  //     ),
+  //   );
+  // }
+
+  void _onCommentTap(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => const CardCommentScreen(),
     );
   }
 
@@ -58,7 +67,7 @@ class _CardScreenState extends State<CardScreen> {
         itemCount: postList.length,
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
-            onTap: _onCardTap,
+            onTap: () {},
             child: Container(
               padding: const EdgeInsets.symmetric(
                 vertical: Sizes.size14,
@@ -159,13 +168,16 @@ class _CardScreenState extends State<CardScreen> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    const Padding(
-                                      padding: EdgeInsets.only(
+                                    Padding(
+                                      padding: const EdgeInsets.only(
                                         right: Sizes.size10,
                                       ),
-                                      child: Icon(
-                                        FontAwesomeIcons.comment,
-                                        size: Sizes.size16 + Sizes.size2,
+                                      child: GestureDetector(
+                                        onTap: () => _onCommentTap(context),
+                                        child: const Icon(
+                                          FontAwesomeIcons.comment,
+                                          size: Sizes.size16 + Sizes.size2,
+                                        ),
                                       ),
                                     ),
                                     Padding(
@@ -173,7 +185,7 @@ class _CardScreenState extends State<CardScreen> {
                                         right: Sizes.size10,
                                       ),
                                       child: GestureDetector(
-                                        onTap: _onHeartClick,
+                                        onTap: () => _onHeartClick(context),
                                         child: (_heart
                                             ? const Icon(
                                                 FontAwesomeIcons.heart,
