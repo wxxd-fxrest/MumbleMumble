@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mumblemumble/card/card_comment_screen.dart';
+import 'package:mumblemumble/card/card_detail_screen.dart';
 import 'package:mumblemumble/constants/gaps.dart';
 import 'package:mumblemumble/constants/sizes.dart';
 
@@ -42,14 +43,14 @@ class _CardScreenState extends State<CardScreen> {
     setState(() {});
   }
 
-  // void _onCardTap() {
-  //   Navigator.push(
-  //     context,
-  //     MaterialPageRoute(
-  //       builder: (context) => const CardDetailScreen(),
-  //     ),
-  //   );
-  // }
+  void _onCardTap() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const CardDetailScreen(),
+      ),
+    );
+  }
 
   void _onCommentTap(BuildContext context) {
     showModalBottomSheet(
@@ -67,7 +68,7 @@ class _CardScreenState extends State<CardScreen> {
         itemCount: postList.length,
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
-            onTap: () {},
+            onTap: _onCardTap,
             child: Container(
               padding: const EdgeInsets.symmetric(
                 vertical: Sizes.size14,
