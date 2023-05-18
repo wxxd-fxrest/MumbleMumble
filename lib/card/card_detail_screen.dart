@@ -278,47 +278,71 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
               ),
             ),
           ),
-          Container(
-            height: Sizes.size64 + Sizes.size4,
-            padding: const EdgeInsets.symmetric(
-              horizontal: Sizes.size10,
-              vertical: Sizes.size10,
-            ),
-            child: TextField(
-              onTap: () {},
-              expands: true,
-              minLines: null,
-              maxLines: null,
-              textInputAction: TextInputAction.newline,
-              cursorColor: Theme.of(context).primaryColor,
-              decoration: InputDecoration(
-                hintText: "Write a comment...",
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(
-                      Sizes.size12,
-                    ),
-                    borderSide: BorderSide.none),
-                filled: true,
-                fillColor: Colors.grey.shade700,
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: Sizes.size10,
-                ),
-                suffixIcon: Padding(
-                  padding: const EdgeInsets.only(
-                    right: Sizes.size14,
+          Positioned(
+            bottom: 0,
+            width: size.width,
+            child: Container(
+              // height: Sizes.size64 + Sizes.size4,
+              padding: const EdgeInsets.symmetric(
+                // horizontal: Sizes.size10,
+                vertical: Sizes.size10,
+              ),
+              decoration: const BoxDecoration(
+                border: Border(
+                  top: BorderSide(
+                    color: Color.fromARGB(255, 244, 243, 243),
                   ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      GestureDetector(
-                        onTap: () {},
-                        child: FaIcon(
-                          FontAwesomeIcons.circleArrowUp,
-                          size: Sizes.size20 + Sizes.size2,
-                          color: Theme.of(context).primaryColor,
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  // top: Sizes.size2,
+                  // bottom: Sizes.size2,
+                  left: Sizes.size20,
+                  right: Sizes.size20,
+                ),
+                child: Expanded(
+                  child: SizedBox(
+                    height: Sizes.size44,
+                    child: TextField(
+                      onTap: () {},
+                      expands: true,
+                      minLines: null,
+                      maxLines: null,
+                      textInputAction: TextInputAction.newline,
+                      cursorColor: Theme.of(context).primaryColor,
+                      decoration: InputDecoration(
+                        hintText: "Write a comment...",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(
+                              Sizes.size12,
+                            ),
+                            borderSide: BorderSide.none),
+                        filled: true,
+                        fillColor: Colors.grey.shade700,
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: Sizes.size10,
+                        ),
+                        suffixIcon: Padding(
+                          padding: const EdgeInsets.only(
+                            right: Sizes.size14,
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              GestureDetector(
+                                onTap: () {},
+                                child: FaIcon(
+                                  FontAwesomeIcons.circleArrowUp,
+                                  size: Sizes.size20 + Sizes.size2,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ),
