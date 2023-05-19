@@ -92,7 +92,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              _currentScreen == 1
+              _currentScreen == 0
                   ? FontAwesomeIcons.solidUser
                   : FontAwesomeIcons.user,
             ),

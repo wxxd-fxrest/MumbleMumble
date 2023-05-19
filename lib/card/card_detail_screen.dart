@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mumblemumble/card/card_comment_screen.dart';
 import 'package:mumblemumble/constants/gaps.dart';
 import 'package:mumblemumble/constants/sizes.dart';
 
@@ -59,7 +60,9 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
   void _onCommentTap(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      builder: (context) => Container(),
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => const CardCommentScreen(),
     );
   }
 
@@ -67,6 +70,7 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text(
           "Trash-Card",
@@ -75,32 +79,62 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
       body: Column(
         children: [
           Container(
+            clipBehavior: Clip.hardEdge,
             padding: const EdgeInsets.only(
               top: Sizes.size14,
               bottom: Sizes.size1,
               left: Sizes.size5,
               right: Sizes.size5,
             ),
+            decoration: const BoxDecoration(
+                // color: Colors.amber,
+                ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Gaps.h7,
-                Container(
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(500),
+                Column(
+                  children: [
+                    Container(
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(500),
+                        ),
+                        color: Colors.amber,
+                      ),
+                      child: ClipRRect(
+                        child: Image.asset(
+                          fit: BoxFit.cover,
+                          'assets/image/Trash-mumble.png',
+                          width: Sizes.size40,
+                          height: Sizes.size40,
+                        ),
+                      ),
                     ),
-                    color: Colors.amber,
-                  ),
-                  child: ClipRRect(
-                    child: Image.asset(
-                      fit: BoxFit.cover,
-                      'assets/image/Trash-mumble.png',
-                      width: Sizes.size40,
-                      height: Sizes.size40,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: Sizes.size5,
+                          ),
+                          child: GestureDetector(
+                            onTap: _onHeartClick,
+                            child: (_heart
+                                ? const Icon(
+                                    FontAwesomeIcons.heart,
+                                    size: Sizes.size20,
+                                  )
+                                : const Icon(
+                                    FontAwesomeIcons.solidHeart,
+                                    size: Sizes.size20,
+                                  )),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
+                  ],
                 ),
                 Gaps.h6,
                 Column(
@@ -125,7 +159,7 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
                             fontSize: Sizes.size12,
                             color: Color(0xFF707070),
                           ),
-                        )
+                        ),
                       ],
                     ),
                     SizedBox(
@@ -134,11 +168,13 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
+                            // color: Colors.amber,
+                            height: Sizes.size60 + Sizes.size96,
                             padding: const EdgeInsets.only(
                               top: Sizes.size2,
                             ),
                             child: const Text(
-                              'text',
+                              '해당 오류는 화면상에서 특정 위젯의 크기가 범위를 벗어나서 발생합니다. TextField에 텍스트를 입력하기위해 화면 하단에 키보드화면이 호출되어 발생할수도 있고 여러가지 이유가 있을수 있습니다해당 오류는 화면상에서 특정 위젯의 크기가 범위를 벗어나서 발생합니다. TextField에 텍스트를 입력하기위해 화면 하단에 키보드화면이 호출되어 발생할수도 있고 여러가지 이유가 있을수 있습니다해당 오류는 화면상에서 특정 위젯의 크기가 범위를 벗어나서 발생합니다. TextField에 텍스트를 입력하기위해 화면 하단에 키보드화면이 호출되어 발생할수도 있고 여러가지 이유가 있을수 있습니다',
                               style: TextStyle(
                                 fontSize: Sizes.size12 + Sizes.size1,
                                 color: Colors.black,
@@ -146,59 +182,128 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
                             ),
                           ),
                           Gaps.v5,
-                          ClipRRect(
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(12),
-                            ),
-                            child: Image.asset(
-                              fit: BoxFit.cover,
-                              'assets/image/paper texture.jpg',
-                              height: 200,
-                            ),
-                          ),
                           Container(
-                            padding: const EdgeInsets.only(
-                              top: Sizes.size10,
-                              bottom: Sizes.size10,
-                            ),
                             decoration: const BoxDecoration(
-                              // color: Colors.blue,
                               border: Border(
                                 bottom: BorderSide(
                                   color: Color.fromARGB(255, 244, 243, 243),
                                 ),
                               ),
                             ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            child: Container(
+                              height: Sizes.size72 + Sizes.size12,
+                              padding: const EdgeInsets.symmetric(
+                                // horizontal: Sizes.size10,
+                                vertical: Sizes.size10,
+                              ),
+                              decoration: const BoxDecoration(
+                                border: Border(
+                                  top: BorderSide(
+                                    color: Color.fromARGB(255, 244, 243, 243),
+                                  ),
+                                ),
+                              ),
+                              child: Expanded(
+                                child: TextField(
+                                  onTap: () {},
+                                  expands: true,
+                                  minLines: null,
+                                  maxLines: null,
+                                  textInputAction: TextInputAction.newline,
+                                  cursorColor: Theme.of(context).primaryColor,
+                                  decoration: InputDecoration(
+                                    hintText: "Write a comment...",
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(
+                                        Sizes.size6,
+                                      ),
+                                      borderSide: BorderSide.none,
+                                    ),
+                                    filled: true,
+                                    fillColor: Colors.grey.shade700,
+                                    contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: Sizes.size10,
+                                      vertical: Sizes.size2,
+                                    ),
+                                    suffixIcon: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {},
+                                          child: FaIcon(
+                                            FontAwesomeIcons.circleArrowUp,
+                                            size: Sizes.size20 + Sizes.size2,
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: size.height * 0.5,
+                            child: Stack(
                               children: [
-                                // Padding(
-                                //   padding: const EdgeInsets.only(
-                                //     right: Sizes.size10,
-                                //   ),
-                                //   child: GestureDetector(
-                                //     onTap: () => _onCommentTap(context),
-                                //     child: const Icon(
-                                //       FontAwesomeIcons.comment,
-                                //       size: Sizes.size16 + Sizes.size2,
-                                //     ),
-                                //   ),
-                                // ),
-                                Padding(
+                                ListView.separated(
+                                  controller: _scrollController,
                                   padding: const EdgeInsets.only(
+                                    bottom: Sizes.size20,
                                     right: Sizes.size10,
                                   ),
-                                  child: GestureDetector(
-                                    onTap: _onHeartClick,
-                                    child: (_heart
-                                        ? const Icon(
-                                            FontAwesomeIcons.heart,
-                                            size: Sizes.size16 + Sizes.size2,
-                                          )
-                                        : const Icon(
-                                            FontAwesomeIcons.solidHeart,
-                                            size: Sizes.size16 + Sizes.size2,
-                                          )),
+                                  separatorBuilder: (context, index) =>
+                                      Gaps.v20,
+                                  itemCount: 10,
+                                  itemBuilder: (context, index) => Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      CircleAvatar(
+                                        radius: 18,
+                                        backgroundColor: Colors.grey.shade700,
+                                        child: const Text("주노"),
+                                      ),
+                                      Gaps.h16,
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "Jono",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: Sizes.size14,
+                                                color: Colors.grey.shade500,
+                                              ),
+                                            ),
+                                            Gaps.v3,
+                                            const Text(
+                                                "html, css, javascript, react를 배우고 backend 공부를 하고 싶어 java 입문을 찾던 중에 이 강의를 발견하게 되었는데 너무 잘 이해되고 아주 좋은 강의였습니다. 확실히 한가지 프로그래밍 언어를 알고 배우는게 훨씬 이해가 빠르긴 하네요 감사합니다")
+                                          ],
+                                        ),
+                                      ),
+                                      Gaps.h10,
+                                      Column(
+                                        children: [
+                                          Gaps.v64,
+                                          GestureDetector(
+                                            onTap: () => _onCommentTap(context),
+                                            child: Icon(
+                                              FontAwesomeIcons.comment,
+                                              size: Sizes.size20 + Sizes.size2,
+                                              color: Colors.grey.shade500,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
@@ -212,176 +317,46 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
               ],
             ),
           ),
-          GestureDetector(
-            child: Container(
-              height: size.height * 0.385,
-              decoration: const BoxDecoration(
-                  // color: Colors.amber,
-                  ),
-              child: Stack(
-                children: [
-                  ListView.separated(
-                    controller: _scrollController,
-                    padding: const EdgeInsets.only(
-                      top: Sizes.size10,
-                      bottom: Sizes.size96 + Sizes.size20,
-                      left: Sizes.size16,
-                      right: Sizes.size16,
-                    ),
-                    separatorBuilder: (context, index) => Gaps.v20,
-                    itemCount: 10,
-                    itemBuilder: (context, index) => Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CircleAvatar(
-                          radius: 18,
-                          backgroundColor: Colors.grey.shade700,
-                          child: const Text("주노"),
-                        ),
-                        Gaps.h16,
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Jono",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: Sizes.size14,
-                                  color: Colors.grey.shade500,
-                                ),
-                              ),
-                              Gaps.v3,
-                              const Text(
-                                  "html, css, javascript, react를 배우고 backend 공부를 하고 싶어 java 입문을 찾던 중에 이 강의를 발견하게 되었는데 너무 잘 이해되고 아주 좋은 강의였습니다. 확실히 한가지 프로그래밍 언어를 알고 배우는게 훨씬 이해가 빠르긴 하네요 감사합니다")
-                            ],
-                          ),
-                        ),
-                        Gaps.h10,
-                        Column(
-                          children: [
-                            Gaps.v64,
-                            GestureDetector(
-                              onTap: () => _onCommentTap(context),
-                              child: Icon(
-                                FontAwesomeIcons.comment,
-                                size: Sizes.size20 + Sizes.size2,
-                                color: Colors.grey.shade500,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            width: size.width,
-            child: Container(
-              // height: Sizes.size64 + Sizes.size4,
-              padding: const EdgeInsets.symmetric(
-                // horizontal: Sizes.size10,
-                vertical: Sizes.size10,
-              ),
-              decoration: const BoxDecoration(
-                border: Border(
-                  top: BorderSide(
-                    color: Color.fromARGB(255, 244, 243, 243),
-                  ),
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  // top: Sizes.size2,
-                  // bottom: Sizes.size2,
-                  left: Sizes.size20,
-                  right: Sizes.size20,
-                ),
-                child: Expanded(
-                  child: SizedBox(
-                    height: Sizes.size44,
-                    child: TextField(
-                      onTap: () {},
-                      expands: true,
-                      minLines: null,
-                      maxLines: null,
-                      textInputAction: TextInputAction.newline,
-                      cursorColor: Theme.of(context).primaryColor,
-                      decoration: InputDecoration(
-                        hintText: "Write a comment...",
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                              Sizes.size12,
-                            ),
-                            borderSide: BorderSide.none),
-                        filled: true,
-                        fillColor: Colors.grey.shade700,
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: Sizes.size10,
-                        ),
-                        suffixIcon: Padding(
-                          padding: const EdgeInsets.only(
-                            right: Sizes.size14,
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              GestureDetector(
-                                onTap: () {},
-                                child: FaIcon(
-                                  FontAwesomeIcons.circleArrowUp,
-                                  size: Sizes.size20 + Sizes.size2,
-                                  color: Theme.of(context).primaryColor,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentScreen,
-        onTap: (int index) {
-          setState(() {
-            _currentScreen = index;
-          });
-        },
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        type: BottomNavigationBarType.fixed,
-        items: [
-          BottomNavigationBarItem(
-            icon: (_currentScreen == 1
-                ? Icon(
-                    FontAwesomeIcons.house,
-                    color: Colors.grey[400],
-                  )
-                : const Icon(
-                    FontAwesomeIcons.house,
-                    color: Colors.blue,
-                  )),
-            label: "Home",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              _currentScreen == 1
-                  ? FontAwesomeIcons.solidUser
-                  : FontAwesomeIcons.user,
+      bottomNavigationBar: SizedBox(
+        height: Sizes.size80 + Sizes.size2,
+        child: BottomNavigationBar(
+          currentIndex: _currentScreen,
+          onTap: (int index) {
+            setState(() {
+              _currentScreen = index;
+            });
+          },
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          type: BottomNavigationBarType.fixed,
+          items: [
+            BottomNavigationBarItem(
+              icon: (_currentScreen == 1
+                  ? Icon(
+                      FontAwesomeIcons.house,
+                      color: Colors.grey[400],
+                      size: Sizes.size16 + Sizes.size2,
+                    )
+                  : const Icon(
+                      FontAwesomeIcons.house,
+                      color: Colors.blue,
+                      size: Sizes.size16 + Sizes.size2,
+                    )),
+              label: "Home",
             ),
-            label: "Profile",
-          ),
-        ],
+            BottomNavigationBarItem(
+              icon: Icon(
+                _currentScreen == 1
+                    ? FontAwesomeIcons.solidUser
+                    : FontAwesomeIcons.user,
+                size: Sizes.size16 + Sizes.size2,
+              ),
+              label: "Profile",
+            ),
+          ],
+        ),
       ),
     );
   }

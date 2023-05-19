@@ -45,7 +45,7 @@ class _CardCommentScreenState extends State<CardCommentScreen> {
           backgroundColor: Colors.grey.shade50,
           automaticallyImplyLeading: false,
           title: const Text(
-            " comments",
+            "대 댓 글",
             style: TextStyle(color: Colors.black),
           ),
           actions: [
@@ -74,6 +74,17 @@ class _CardCommentScreenState extends State<CardCommentScreen> {
                   itemBuilder: (context, index) => Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      const Padding(
+                        padding: EdgeInsets.only(
+                          top: Sizes.size3,
+                          right: Sizes.size5,
+                        ),
+                        child: FaIcon(
+                          FontAwesomeIcons.arrowRight,
+                          size: Sizes.size20,
+                          color: Colors.black38,
+                        ),
+                      ),
                       CircleAvatar(
                         radius: 18,
                         backgroundColor: Colors.grey.shade700,
@@ -99,23 +110,6 @@ class _CardCommentScreenState extends State<CardCommentScreen> {
                         ),
                       ),
                       Gaps.h10,
-                      Column(
-                        children: [
-                          Gaps.v5,
-                          FaIcon(
-                            FontAwesomeIcons.heart,
-                            size: Sizes.size20,
-                            color: Colors.grey.shade500,
-                          ),
-                          Gaps.v2,
-                          Text(
-                            "52.2K",
-                            style: TextStyle(
-                              color: Colors.grey.shade500,
-                            ),
-                          ),
-                        ],
-                      ),
                     ],
                   ),
                 ),
