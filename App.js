@@ -1,21 +1,27 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import auth from '@react-native-firebase/auth';
+import AppRouter from './src/navigations/AppRouter';
+// import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+const App = () => {
+    const [isAuthentication, setIsAuthentication] = useState(false); 
+    const [currentUser, setCurrentUser] = useState({});
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+    useEffect(() => {
+        auth().onAuthStateChanged((user) => {
+            setCurrentUser(user);
+            if(user) {
+                setIsAuthentication(true);
+            } else {
+                setIsAuthentication(false);
+            }
+        })
+    }, []);
+
+
+	return (
+		<AppRouter isAuthentication={isAuthentication}/>
+	);
+};
+
+export default App; 
