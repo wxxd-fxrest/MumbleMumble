@@ -1,11 +1,13 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { Alert } from "react-native";
+import { Alert, useColorScheme } from "react-native";
 import styled from "styled-components";
 import auth from '@react-native-firebase/auth';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 
 const ProfileScreen = () => {
     const navigation = useNavigation();
+    const isDark = useColorScheme() === 'dark';
 
     const onLogOut = () => {
         Alert.alert(
@@ -32,7 +34,7 @@ const ProfileScreen = () => {
     };
     return (
         <Container> 
-            <Title>ProfileScreen</Title>
+            <Title isDark={isDark}>ProfileScreen</Title>
             <LogoutButton onPress={onLogOut}>
                 <LogoutButtonText> 로그아웃 </LogoutButtonText>
             </LogoutButton>
@@ -40,9 +42,14 @@ const ProfileScreen = () => {
     )
 };
 
-const Container = styled.View``;
+const Container = styled.View`
+    flex: 1;
+    padding: ${hp(2)}px;
+`;
 
-const Title = styled.Text``;
+const Title = styled.Text`
+    color: ${(props) => (props.isDark ? "white" : "black")};
+`;
 
 const LogoutButton = styled.TouchableOpacity`
     flex-direction: row;

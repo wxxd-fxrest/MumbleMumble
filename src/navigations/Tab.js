@@ -2,16 +2,21 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 import { useColorScheme } from "react-native";
 import styled from "styled-components";
-import { colors, darkTheme, lightTheme } from "../../colors";
 import MainScreen from "../screens/tab/MainScreen";
 import ProfileScreen from "../screens/tab/ProfileScreen";
-import { Feather } from '@expo/vector-icons'; 
 import { Ionicons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons'; 
+import { useNavigation } from "@react-navigation/native";
 
 const NativeTab = createBottomTabNavigator();
 
 const Tab = () => {
     const isDark = useColorScheme() === 'dark';
+    const navigation = useNavigation();
+    const goWrite = () => {
+        navigation.navigate("Stack", {screen: "Write"});
+    };
+
     
     return (
         <NativeTab.Navigator
@@ -19,15 +24,15 @@ const Tab = () => {
                 unmountOnBlur: true, 
                 tabBarShowLabel: false,
                 tabBarStyle: {
-                    backgroundColor: isDark ? darkTheme.backColor : lightTheme.headerColor,
+                    backgroundColor: isDark ? 'black' : 'white',
                 },
                 tabBarActiveTintColor: "white",
-                tabBarInactiveTintColor: colors.lightGreyColor,
                 headerStyle: {
-                    backgroundColor: isDark ? darkTheme.backColor : lightTheme.headerColor,
+                    backgroundColor: isDark ? 'black' : 'white',
                 },
                 headerTitleStyle: {
-                    color: "white",
+                    color:  isDark ? 'white' : 'black',
+                    fontSize: 18,
                 },
                 tabBarIconStyle: {
                     marginTop: 10,
@@ -38,27 +43,27 @@ const Tab = () => {
                     marginBottom: -8,
                 },
                 headerRight: () => (
-                    <SetupButton>
-                        <Feather name="settings" color="white" size={22} />
+                    <SetupButton onPress={goWrite}>
+                        <FontAwesome name="send-o" color={isDark ? 'white' : 'black'} size={22} />
                     </SetupButton>
                 )
             }}
             sceneContainerStyle={{
-                backgroundColor: isDark ? darkTheme.backColor : "white",
+                backgroundColor: isDark ? 'black' : "white",
             }}>
 
             <NativeTab.Screen name="Mumble" component={MainScreen} 
                 options={{
                     tabBarLabel: "Home",
-                    tabBarIcon: ({focused, color, size}) => {
-                        return <Ionicons name={focused ? "home" : "home-outline"} color={color} size={size} />
+                    tabBarIcon: ({focused, size}) => {
+                        return <Ionicons name={focused ? "home" : "home-outline"} color={isDark ? 'white' : 'black'} size={size} />
                     }
                 }} 
             />
 
             <NativeTab.Screen name="Profile" component={ProfileScreen} options={{
-                tabBarIcon: ({focused, color, size}) => {
-                    return <Ionicons name={focused ? "ios-person-sharp" : "ios-person-outline"} color={color} size={size} />
+                tabBarIcon: ({focused, size}) => {
+                    return <Ionicons name={focused ? "ios-person-sharp" : "ios-person-outline"} color={isDark ? 'white' : 'black'} size={size} />
                 }
             }}/>
 

@@ -6,18 +6,13 @@ export const colors = {
 };
 
 export const lightTheme = {
-    textColor: "#AFBED0",
-    textPointColor: "#959D33",
-    headerColor: "#2D4421",
-    pointColor: "#BDCEB3",
+    BtnColor: "#DD520F",
+    headerColor: "#095D9E",
+    backColor: "#C5E7FF",
 };
 
 export const darkTheme = {
-    backColor: "#1e242b",
-    textColor: "#AFBED0",
-    headerColor: "#262E37",
-    pointColor: "#60748A",
-    selectedDateColor: "#EBB251",
-    BorderColor: "#B1C0DD",
-    lightGreyColor: "#9EACBD",
+    BtnColor: "#095D9E",
+    headerColor: "#095D9E",
+    backColor: "#095D9E",
 };
