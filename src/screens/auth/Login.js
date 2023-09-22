@@ -3,6 +3,7 @@ import { ActivityIndicator, Alert, useColorScheme } from "react-native";
 import auth from '@react-native-firebase/auth';
 import { styled } from "styled-components";
 import { darkTheme, lightTheme } from "../../../colors";
+import { useNavigation } from "@react-navigation/native";
 
 const Login = ({navigation: {navigate}}) => {
     const [email, setEmail] = useState("");
@@ -10,6 +11,7 @@ const Login = ({navigation: {navigate}}) => {
     const [loading, setLoading] = useState(false);
     const passwordInput = useRef();
     const isDark = useColorScheme() === 'dark';
+    const navigation = useNavigation();
 
     const onSubmitEmailEditing = () => {
         passwordInput.current.focus();
@@ -123,7 +125,7 @@ const Login = ({navigation: {navigate}}) => {
 };
 
 const Container = styled.View`
-    background-color: ${(props) => (props.isDark ? darkTheme.headerColor : "white")};
+    background-color: ${(props) => (props.isDark ? 'black' : 'white')}; 
     flex: 1;
     justify-content: center;
     align-items: center;
@@ -132,7 +134,7 @@ const Container = styled.View`
 `;
 
 const TextInput = styled.TextInput`
-    border: solid 1px ${(props) => (props.isDark ? darkTheme.pointColor : lightTheme.pointColor)};
+    border: solid 1px ${(props) => (props.isDark ? darkTheme.BtnColor : lightTheme.BtnColor)};
     width: 100%;
     padding: 10px 20px;
     border-radius: 20px;
@@ -146,10 +148,10 @@ const Button = styled.TouchableOpacity`
     padding: 10px 20px;
     border-width: 1px;
     border-radius: 20px;
-    border-color: ${(props) => (props.isDark ? darkTheme.pointColor : lightTheme.pointColor)}; 
+    border-color: ${(props) => (props.isDark ? darkTheme.BtnColor : lightTheme.BtnColor)}; 
     justify-content: center;
     align-items: center;
-    background-color: ${(props) => (props.isDark ? darkTheme.pointColor : lightTheme.pointColor)}; 
+    background-color: ${(props) => (props.isDark ? darkTheme.BtnColor : lightTheme.BtnColor)}; 
 `;
 
 const ButtonText = styled.Text`
@@ -177,8 +179,8 @@ const NextButton = styled.TouchableOpacity`
     padding: 10px 20px;
     border-width: 1px;
     border-radius: 20px;
-    border-color: ${(props) => (props.isDark ? darkTheme.pointColor : lightTheme.pointColor)}; 
-    background-color: ${(props) => (props.isDark ? darkTheme.pointColor : lightTheme.pointColor)}; 
+    border-color: ${(props) => (props.isDark ? darkTheme.BtnColor : lightTheme.BtnColor)}; 
+    background-color: ${(props) => (props.isDark ? darkTheme.BtnColor : lightTheme.BtnColor)}; 
     justify-content: center;
     align-items: center;
 `;

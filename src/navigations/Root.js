@@ -6,6 +6,7 @@ import WelcomeScreen from "../screens/WelcomeScreen";
 import Tab from "./Tab";
 import Stack from "./Stack";
 import auth from '@react-native-firebase/auth';
+import MumbleStack from "./MumbleStack";
 
 const RootNavigation = createNativeStackNavigator(); 
 
@@ -23,10 +24,13 @@ const Root = () => {
             }}>
             <RootNavigation.Screen name='Welcome' component={WelcomeScreen} />
             <RootNavigation.Screen name="Tab" component={Tab}
-                initialParams={{ prop1: currentUser }}
+                initialParams={{ prop: currentUser.email }}
             />
             <RootNavigation.Screen name="Stack" component={Stack}
-                initialParams={{ prop1: currentUser.email }}
+                initialParams={{ prop: currentUser.email }}
+            />
+            <RootNavigation.Screen name="MumbleStack" component={MumbleStack}
+                initialParams={{ prop: currentUser.email }}
             />
         </RootNavigation.Navigator>
 

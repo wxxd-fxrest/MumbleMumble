@@ -1,0 +1,51 @@
+import React from "react";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native";
+import MumbleScreen from "../screens/MumbleScreen";
+import { useColorScheme } from "react-native";
+import styled from "styled-components";
+import { Ionicons } from '@expo/vector-icons'; 
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+
+const MumbleNativeStack = createNativeStackNavigator();
+
+const MumbleStack = () => {
+    const isDark = useColorScheme() === 'dark';
+    const navigation = useNavigation();
+
+    return(
+        <MumbleNativeStack.Navigator 
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: isDark ? 'black' : 'white',
+                },
+                headerTitleStyle: {
+                    color: isDark ? 'white' : 'black',
+                },
+                contentStyle: {
+                    backgroundColor: isDark ? 'black' : 'white',
+                },
+
+            }}>
+            <MumbleNativeStack.Screen name="Mumble" component={MumbleScreen}
+                options={{
+                    headerShadowVisible: false,
+                    headerLeft: () => (
+                        <SetupButton onPress={() => navigation.goBack()}>
+                            <Ionicons name="chevron-back" size={26} color={isDark ? 'white' : 'black'} />
+                        </SetupButton>
+                    ),
+                    headerRight: () => (
+                        <SetupButton>
+                            <MaterialCommunityIcons name="delete-alert-outline" color={isDark ? 'white' : 'black'} size={26} />
+                        </SetupButton>
+                    )
+                }}
+            />
+        </MumbleNativeStack.Navigator>
+    )
+};
+
+const SetupButton = styled.TouchableOpacity``;
+
+export default MumbleStack; 

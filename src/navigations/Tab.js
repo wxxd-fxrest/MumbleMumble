@@ -10,7 +10,8 @@ import { useNavigation } from "@react-navigation/native";
 
 const NativeTab = createBottomTabNavigator();
 
-const Tab = () => {
+const Tab = ({ route }) => {
+    const { prop } = route.params;
     const isDark = useColorScheme() === 'dark';
     const navigation = useNavigation();
     const goWrite = () => {

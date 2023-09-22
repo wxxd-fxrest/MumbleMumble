@@ -16,7 +16,7 @@ const App = () => {
                 setIsAuthentication(false);
             }
         })
-    }, []);
+    }, [currentUser]);
 
 
 	return (

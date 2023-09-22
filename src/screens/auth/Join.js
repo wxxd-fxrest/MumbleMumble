@@ -4,6 +4,7 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { styled } from "styled-components";
 import { darkTheme, lightTheme } from "../../../colors";
+import { useNavigation } from "@react-navigation/native";
 
 const Join = ({navigation: {navigate}}) => {
     const [email, setEmail] = useState("");
@@ -11,12 +12,6 @@ const Join = ({navigation: {navigate}}) => {
     const [loading, setLoading] = useState(false);
     const passwordInput = useRef();
     const isDark = useColorScheme() === 'dark';
-
-    let timestamp = Date.now();
-    let date = new Date(timestamp);
-    let targetMonth = (
-        (date.getFullYear()+ "년")+
-        ('0' + (date.getMonth() + 1)).slice(-2)+ "월");
 
     const onSubmitEmailEditing = () => {
         passwordInput.current.focus();
@@ -30,20 +25,15 @@ const Join = ({navigation: {navigate}}) => {
         if(loading) {
             return; 
         }
+        setLoading(true);
 
         try {
             const userCredential = await auth().createUserWithEmailAndPassword(email, password); 
             await firestore().collection('Users').doc(`${userCredential.user.email}`).set({
                 email: `${userCredential.user.email}`,
-                name: `${userCredential.user.email.split('@')[0]}`
+                name: `${userCredential.user.email.split('@')[0]}`,
             })
-            await firestore()
-                .collection('Users').doc(`${userCredential.user.email}`)
-                .collection('TargetData').doc(`${targetMonth}`).set({
-                limit: 3,
-                Preview: 0,
-                orderBy: targetMonth, 
-            }).then(() => {
+            .then(() => {
                 console.log('User added!');
             });
         } catch(e) {
@@ -140,7 +130,7 @@ const Join = ({navigation: {navigate}}) => {
 };
 
 const Container = styled.View`
-    background-color: ${(props) => (props.isDark ? darkTheme.headerColor : "white")};
+    background-color: ${(props) => (props.isDark ? 'black' : 'white')}; 
     flex: 1;
     justify-content: center;
     align-items: center;
@@ -149,7 +139,7 @@ const Container = styled.View`
 `;
 
 const TextInput = styled.TextInput`
-    border: solid 1px ${(props) => (props.isDark ? darkTheme.pointColor : lightTheme.pointColor)};
+    border: solid 1px ${(props) => (props.isDark ? darkTheme.BtnColor : lightTheme.BtnColor)};
     width: 100%;
     padding: 10px 20px;
     border-radius: 20px;
@@ -163,10 +153,10 @@ const Button = styled.TouchableOpacity`
     padding: 10px 20px;
     border-width: 1px;
     border-radius: 20px;
-    border-color: ${(props) => (props.isDark ? darkTheme.pointColor : lightTheme.pointColor)}; 
+    border-color: ${(props) => (props.isDark ? darkTheme.BtnColor : lightTheme.BtnColor)}; 
     justify-content: center;
     align-items: center;
-    background-color: ${(props) => (props.isDark ? darkTheme.pointColor : lightTheme.pointColor)}; 
+    background-color: ${(props) => (props.isDark ? darkTheme.BtnColor : lightTheme.BtnColor)}; 
 `;
 
 const ButtonText = styled.Text`
@@ -194,8 +184,8 @@ const NextButton = styled.TouchableOpacity`
     padding: 10px 20px;
     border-width: 1px;
     border-radius: 20px;
-    border-color: ${(props) => (props.isDark ? darkTheme.pointColor : lightTheme.pointColor)}; 
-    background-color: ${(props) => (props.isDark ? darkTheme.pointColor : lightTheme.pointColor)}; 
+    border-color: ${(props) => (props.isDark ? darkTheme.BtnColor : lightTheme.BtnColor)}; 
+    background-color: ${(props) => (props.isDark ? darkTheme.BtnColor : lightTheme.BtnColor)}; 
     justify-content: center;
     align-items: center;
 `;

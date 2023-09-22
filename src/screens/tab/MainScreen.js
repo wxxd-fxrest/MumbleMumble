@@ -1,13 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { useColorScheme } from "react-native";
+import { FlatList, useColorScheme } from "react-native";
+import firestore from '@react-native-firebase/firestore';
+import Mumble from "../../components/Mumble";
+import { useNavigation } from "@react-navigation/native";
 
 const MainScreen = () => {
     const isDark = useColorScheme() === 'dark';
+    const navigation = useNavigation();
+    const [mumbleData, setMumbleData] = useState([]);
+
+    useEffect(() => {
+        const subscriber = firestore()
+            .collection('Mumbles').orderBy('orderBy', 'asc').onSnapshot(documentSnapshot => {
+                let feedArray = []
+                documentSnapshot.forEach((doc) => {
+                    feedArray.push({
+                        DocID: doc.id, 
+                        Data: doc.data(),
+                    })
+                    setMumbleData(feedArray);
+                });
+            });
+
+        return () => subscriber();
+    }, []);
+
     return (
         <Container> 
-            <Title isDark={isDark}>MainScreen</Title>
+            <FlatList data={mumbleData}
+                keyExtractor={(item) => item.DocID + ""}
+                showsVerticalScrollIndicator={false}
+                renderItem={({item}) => (
+                    <Mumble item={item}/>
+                )} 
+            />
         </Container>
     )
 };
@@ -17,7 +45,7 @@ const Container = styled.View`
     padding: ${hp(2)}px;
 `;
 
-const Title = styled.Text`
+const Title = styled.TouchableOpacity`
     color: ${(props) => (props.isDark ? "white" : "black")};
 `;
 

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { Switch, useColorScheme } from "react-native";
+import { Alert, Switch, useColorScheme } from "react-native";
 import { Ionicons } from '@expo/vector-icons'; 
 import { REACT_APP_API_KEY } from '@env';
 import axios from 'axios';
@@ -10,35 +10,44 @@ import { useWriteContext } from "../context/WriteContext";
 
 const WriteOption = () => {
     const isDark = useColorScheme() === 'dark';
+    const artistInput = useRef();
     const [music, setMusic] = useState("");
     const [artist, setArtist] = useState("");
-    const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const [first, setFirst] = useState(false);
-    const [second, setSecond] = useState(false);
     const [search, setSearch] = useState(false);
 
+    const { data, setData, first, setFirst, second, setSecond } = useWriteContext();
+
     const firstSwitch = () => setFirst(previousState => !previousState);
-    const secondSwitch = () => setSecond(previousState => !previousState);
-  
-    const { write, setWrite, mumble, setMumble } = useWriteContext();
-    // console.log(mumble)
+    const secondSwitch = () => {
+        if(second === true) {
+            setSearch(false);
+            setData([]);
+            setLoading(true);
+        }
+        setSecond(previousState => !previousState)
+    };
 
     const textKey = '#text';
 
     const getMealData = async() => {
         setSearch(true);
-        try {
-            const response = await axios.get(`https://ws.audioscrobbler.com/2.0/?method=track.search&track=${music}&artist=${artist}&limit=1&api_key=${REACT_APP_API_KEY}&format=json`);
-            // console.log('response=>', response.data.results.trackmatches)
-            if (response && response.data.results.trackmatches) {
-                setData(response.data.results.trackmatches);
-                setLoading(false);
-                console.log(data)
+        if(music && artist) {
+            try {
+                const response = await axios.get(`https://ws.audioscrobbler.com/2.0/?method=track.search&track=${music}&artist=${artist}&limit=1&api_key=${REACT_APP_API_KEY}&format=json`);
+                // console.log('response=>', response.data.results.trackmatches.track[0])
+                if (response && response.data.results.trackmatches) {
+                    setData(response.data.results.trackmatches.track[0]);
+                    setLoading(false);
+                    // console.log(data)
+                }
+            } catch (err) {
+                console.log('error: ', err.message);
             }
-        } catch (err) {
-            console.log('error: ', err.message);
+        } else {
+            Alert.alert('노래와 가수명을 기입해주세요.');
+            setSearch(false);
         }
     };
 
@@ -62,47 +71,66 @@ const WriteOption = () => {
                     value={second}
                 />
             </OptionSecond>
-            {second === true && <MusicContainer>
-                <MusicSearch isDark={isDark}
-                    placeholder="Music Search" 
-                    placeholderTextColor={isDark ? "lightgrey" : "grey"}
-                    returnKeyType="search"
-                    multiline={true}
-                    onChangeText={(text) => {
-                        setMusic(text)
-                    }}
-                /> 
-                <Empty />
-                <ArtistSearch isDark={isDark}
-                    placeholder="Artist Search" 
-                    placeholderTextColor={isDark ? "lightgrey" : "grey"}
-                    returnKeyType="search"
-                    multiline={true}
-                    onChangeText={(text) => {
-                        setArtist(text)
-                    }}
-                /> 
-                <SearchBtn onPress={getMealData}>
-                    {(music && artist) ? <Ionicons name="md-search-circle-sharp" size={48} color="#095D9E" /> :<Ionicons name="md-search-circle-outline" size={48} color="grey" />}
-                </SearchBtn>
-            </MusicContainer>}
-            {search === true && <>
-                {loading ? (
-                    <Loading size="large" style={{ marginTop: hp(2) }} />
-                ) : (<>
-                    {data.track[0] ? 
-                        <SearchDataBox isDark={isDark}>
-                            <RecipeImage source={{ uri : data.track[0].image[1][textKey]}} />
-                            <Empty />
-                            <Title isDark={isDark}> {data.track[0].name} </Title>
-                            <Title isDark={isDark}> {data.track[0].artist} </Title>
-                        </SearchDataBox>
-                    : <Title isDark={isDark}> 검색 결과가 없습니다. </Title>}
-                </>)}
-            </>}
+            {second === true && 
+            <Music>
+                <MusicContainer>
+                    <MusicSearch isDark={isDark}
+                        placeholder="Music Search" 
+                        placeholderTextColor={isDark ? "lightgrey" : "grey"}
+                        autoCapitalize="none"
+                        returnKeyType="next"
+                        multiline={false}
+                        onSubmitEditing={() => artistInput.current.focus()}
+                        onChangeText={(text) => {
+                            setMusic(text);
+                        }}
+                    /> 
+                    <Empty />
+                    <ArtistSearch isDark={isDark}
+                        ref={artistInput}
+                        placeholder="Artist Search" 
+                        placeholderTextColor={isDark ? "lightgrey" : "grey"}
+                        returnKeyType="search"
+                        multiline={false}
+                        onSubmitEditing={getMealData}
+                        onChangeText={(text) => {
+                            setArtist(text)
+                        }}
+                    /> 
+                    <SearchBtn onPress={getMealData}>
+                        {(music && artist) ? <Ionicons name="md-search-circle-sharp" size={48} color="#095D9E" /> :<Ionicons name="md-search-circle-outline" size={48} color="grey" />}
+                    </SearchBtn>
+                </MusicContainer>
+                {search === true ? <>
+                    {loading ? (
+                        <Loading size="large" style={{ marginTop: hp(2) }} />
+                    ) : (<>
+                        {data ? <SearchContiner>
+                            <SearchDataBox isDark={isDark}>
+                                <RecipeImage source={{ uri : data.image[1][textKey]}} />
+                                <Empty />
+                                <Title isDark={isDark}> {data.name} </Title>
+                                <Title isDark={isDark}> {data.artist} </Title>
+                            </SearchDataBox>
+                            <Title style={{
+                                color: 'grey',
+                                fontSize: 12
+                            }}> 노래는 검색 시 자동으로 선택됩니다. </Title>
+                        </SearchContiner> : <Title isDark={isDark}> 검색 결과가 없습니다. </Title>}
+                    </>
+                    )}
+                </> : null}
+            </Music>
+            }
         </Container>
     )
 };
+
+const SearchContiner =styled.View`
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+`;
 
 const Container = styled.View`
     flex: 1;
@@ -117,7 +145,6 @@ const OptionFirst = styled.View`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    /* background-color: yellowgreen; */
     margin: 20px 0px;
 `;
 
@@ -125,9 +152,10 @@ const OptionSecond = styled.View`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    /* background-color: yellowgreen; */
     margin-bottom: 10px;
 `;
+
+const Music = styled.View``;
 
 const MusicContainer = styled.View`
     flex-direction: row;
@@ -137,11 +165,9 @@ const MusicContainer = styled.View`
 `;
 
 const MusicSearch = styled.TextInput`
-    /* background-color: yellowgreen; */
     border: solid 1px ${(props) => (props.isDark ? "white" : "black")};
     border-radius: 20px;
     width: ${wp(32)}px;
-    /* height: ${hp(4)}px; */
     padding: ${hp(1)}px ${hp(2)}px;
     color: ${(props) => (props.isDark ? "white" : "black")};
 `;
@@ -151,12 +177,9 @@ const Empty = styled.View`
 `;
 
 const ArtistSearch = styled.TextInput`
-    /* background-color: yellowgreen; */
     border: solid 1px ${(props) => (props.isDark ? "white" : "black")};
     border-radius: 20px;
     width: ${wp(32)}px;
-    /* width: 45%; */
-    /* height: ${hp(4)}px; */
     padding: ${hp(1)}px ${hp(2)}px;
     color: ${(props) => (props.isDark ? "white" : "black")};
 `;
@@ -167,12 +190,14 @@ const SearchBtn = styled.TouchableOpacity`
     margin-left: ${wp(2)}px;
 `;
 
-const SearchDataBox = styled.TouchableOpacity`
+const SearchDataBox = styled.View`
     flex-direction: row;
     align-items: center;
     background-color: ${(props) => (props.isDark ? "rgba(255, 255, 255, 0.2)" : "rgba(0, 0, 0, 0.2)")};
     padding: ${wp(4)}px;
     border-radius: 15px;
+    margin-bottom: ${hp(1)}px;
+    width: 100%;
 `;
 
 const RecipeImage = styled.Image`

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useColorScheme } from "react-native";
 import Write from "../components/Write";
@@ -10,23 +10,57 @@ import { useNavigation } from "@react-navigation/native";
 import WriteOption from "../components/WriteOption";
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import { useWriteContext } from "../context/WriteContext";
+import firestore from '@react-native-firebase/firestore';
+import { useCurrentContext } from "../context/CurrentContext";
 
 const NativeStack = createNativeStackNavigator();
 
 const Stack = ({ route }) => {
-    const { prop1 } = route.params;
+    const { prop } = route.params;
     const navigation = useNavigation();
     const isDark = useColorScheme() === 'dark';
-    // console.log('stack', prop1)
 
-    const { write, setWrite, mumble, setMumble } = useWriteContext();
+    const { 
+        write, mumble, data, first, second, 
+        setWrite, setMumble, setData, setFirst, setSecond 
+    } = useWriteContext();
+    
+    const { currentUser, setCurrentUser } = useCurrentContext();
+
+    useEffect(() => {
+        const subscriber = firestore().collection('Users').doc(`${prop}`)
+            .onSnapshot(documentSnapshot => {
+                setCurrentUser(documentSnapshot.data());
+        });
+        return () => subscriber();
+    }, [prop]);
+
+    const onSaveMumble = async() => {
+            await firestore().collection('Mumbles').add({
+                Mumble: mumble, 
+                ProfileBoolean: first,
+                MusicBoolean: second, 
+                Music: data,
+                masterEmail: currentUser.email,
+                masterName: first === true && currentUser.name,
+                masterImage: first === true && (currentUser.image ? currentUser.image : ''),
+                orderBy: new Date(),
+            });
+        Cancle();
+    };
+
+    const Cancle = () => {
+        navigation.goBack();
+        setWrite(false);
+        setMumble("");
+        setData([]);
+        setFirst(false);
+        setSecond(false);
+    };
 
     return (
         <NativeStack.Navigator 
             screenOptions={{
-                // headerShown: false,
-                // headerBackVisible: true,
-                // headerBackTitleVisible: true,
                 headerStyle: {
                     backgroundColor: isDark ? 'black' : 'white',
                 },
@@ -39,11 +73,12 @@ const Stack = ({ route }) => {
 
             }}>
             <NativeStack.Screen name="Write" component={Write}
-                initialParams={{ prop1: prop1 }}
+                initialParams={{ prop1: prop }}
                 options={{
+                    title: '',
                     headerShadowVisible: false,
                     headerLeft: () => (
-                        <SetupButton onPress={() => navigation.goBack()}>
+                        <SetupButton onPress={() => Cancle()}>
                             <Ionicons name="chevron-back" size={26} color={isDark ? 'white' : 'black'} />
                         </SetupButton>
                     ),
@@ -55,11 +90,11 @@ const Stack = ({ route }) => {
                                 })
                             }
                         }}>
-                            <MaterialCommunityIcons name="page-next-outline" size={24} 
+                            <MaterialCommunityIcons name="page-next-outline" size={26} 
                                 color={
-                                    isDark ? write === true ? "white" : "rgba(255, 255, 255, 0.3)" 
+                                    isDark ? write === true ? "white" : "rgba(255, 255, 255, 0.5)" 
                                 : 
-                                    write === true ? "black" : "rgba(0, 0, 0, 0.3)"
+                                    write === true ? "black" : "rgba(0, 0, 0, 0.5)"
                                 } 
                             />
                         </SetupButton>
@@ -68,16 +103,17 @@ const Stack = ({ route }) => {
             />
 
             <NativeStack.Screen name="selectOption" component={WriteOption}
-                initialParams={{ prop1: prop1 }}
+                initialParams={{ prop1: prop }}
                 options={{
+                    title: '',
                     headerShadowVisible: false,
                     headerLeft: () => (
-                        <SetupButton onPress={() => navigation.goBack()}>
+                        <SetupButton onPress={() => Cancle()}>
                             <Ionicons name="chevron-back" size={26} color={isDark ? 'white' : 'black'} />
                         </SetupButton>
                     ),
                     headerRight: () => (
-                        <SetupButton>
+                        <SetupButton onPress={() => onSaveMumble()}>
                             <FontAwesome name="send-o" color={isDark ? 'white' : 'black'} size={22} />
                         </SetupButton>
                     )
@@ -87,9 +123,7 @@ const Stack = ({ route }) => {
     )
 };
 
-const SetupButton = styled.TouchableOpacity`
-    margin-right: 20px;
-`;
+const SetupButton = styled.TouchableOpacity``;
 
 
 export default Stack; 
