@@ -7,6 +7,7 @@ import ProfileScreen from "../screens/tab/ProfileScreen";
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { useNavigation } from "@react-navigation/native";
+import { AntDesign } from '@expo/vector-icons'; 
 
 const NativeTab = createBottomTabNavigator();
 
@@ -18,7 +19,10 @@ const Tab = ({ route }) => {
         navigation.navigate("Stack", {screen: "Write"});
     };
 
-    
+    const goSetup = () => {
+        navigation.navigate("Stack", {screen: "Setup"});
+    };
+
     return (
         <NativeTab.Navigator
             screenOptions={{
@@ -62,10 +66,18 @@ const Tab = ({ route }) => {
                 }} 
             />
 
-            <NativeTab.Screen name="Profile" component={ProfileScreen} options={{
-                tabBarIcon: ({focused, size}) => {
-                    return <Ionicons name={focused ? "ios-person-sharp" : "ios-person-outline"} color={isDark ? 'white' : 'black'} size={size} />
-                }
+            <NativeTab.Screen name="Profile" component={ProfileScreen} 
+                initialParams={{ prop: prop }}
+                options={{
+                    tabBarIcon: ({focused, size}) => {
+                        return <Ionicons name={focused ? "ios-person-sharp" : "ios-person-outline"} color={isDark ? 'white' : 'black'} size={size} 
+                        />
+                    },
+                    headerLeft: () => (
+                        <SetupButton2 onPress={goSetup}>
+                            <AntDesign name="setting" size={26} color={isDark ? 'white' : 'black'}  />
+                        </SetupButton2>
+                    ),
             }}/>
 
         </NativeTab.Navigator>
@@ -74,6 +86,10 @@ const Tab = ({ route }) => {
 
 const SetupButton = styled.TouchableOpacity`
     margin-right: 20px;
+`;
+
+const SetupButton2 = styled.TouchableOpacity`
+    margin-left: 20px;
 `;
 
 export default Tab; 

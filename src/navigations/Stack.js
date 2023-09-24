@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useColorScheme } from "react-native";
 import Write from "../components/Write";
-import { darkTheme, lightTheme } from "../../colors";
 import { Ionicons } from '@expo/vector-icons'; 
 import styled from "styled-components";
 import { FontAwesome } from '@expo/vector-icons'; 
@@ -12,6 +11,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useWriteContext } from "../context/WriteContext";
 import firestore from '@react-native-firebase/firestore';
 import { useCurrentContext } from "../context/CurrentContext";
+import Setup from "../components/Setup";
 
 const NativeStack = createNativeStackNavigator();
 
@@ -65,7 +65,7 @@ const Stack = ({ route }) => {
                     backgroundColor: isDark ? 'black' : 'white',
                 },
                 headerTitleStyle: {
-                    color: "white",
+                    color: isDark ? 'white' : 'black',
                 },
                 contentStyle: {
                     backgroundColor: isDark ? 'black' : 'white',
@@ -117,6 +117,19 @@ const Stack = ({ route }) => {
                             <FontAwesome name="send-o" color={isDark ? 'white' : 'black'} size={22} />
                         </SetupButton>
                     )
+                }}
+            />
+
+            <NativeStack.Screen name="Setup" component={Setup}
+                initialParams={{ prop1: prop }}
+                options={{
+                    title: '설정',
+                    headerShadowVisible: false,
+                    headerLeft: () => (
+                        <SetupButton onPress={() => Cancle()}>
+                            <Ionicons name="chevron-back" size={26} color={isDark ? 'white' : 'black'} />
+                        </SetupButton>
+                    ),
                 }}
             />
         </NativeStack.Navigator>
