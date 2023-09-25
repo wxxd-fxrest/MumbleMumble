@@ -4,7 +4,6 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { styled } from "styled-components";
 import { darkTheme, lightTheme } from "../../../colors";
-import { useNavigation } from "@react-navigation/native";
 
 const Join = ({navigation: {navigate}}) => {
     const [email, setEmail] = useState("");
@@ -32,6 +31,7 @@ const Join = ({navigation: {navigate}}) => {
             await firestore().collection('Users').doc(`${userCredential.user.email}`).set({
                 email: `${userCredential.user.email}`,
                 name: `${userCredential.user.email.split('@')[0]}`,
+                mumbleCount: 0,
             })
             .then(() => {
                 console.log('User added!');

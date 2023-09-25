@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useColorScheme } from "react-native";
 import styled from "styled-components";
 import MainScreen from "../screens/tab/MainScreen";
@@ -8,6 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from '@expo/vector-icons'; 
+import firestore from '@react-native-firebase/firestore';
 
 const NativeTab = createBottomTabNavigator();
 
@@ -15,6 +16,8 @@ const Tab = ({ route }) => {
     const { prop } = route.params;
     const isDark = useColorScheme() === 'dark';
     const navigation = useNavigation();
+    const [currentData, setCurrentData] = useState([]);
+
     const goWrite = () => {
         navigation.navigate("Stack", {screen: "Write"});
     };
@@ -22,6 +25,17 @@ const Tab = ({ route }) => {
     const goSetup = () => {
         navigation.navigate("Stack", {screen: "Setup"});
     };
+
+
+    useEffect(() => {
+        const subscriber = firestore().collection('Users').doc(`${prop}`)
+            .onSnapshot(documentSnapshot => {
+                setCurrentData(documentSnapshot.data());
+                // console.log(currentData)
+        });
+
+        return () => subscriber();
+    }, [prop]);
 
     return (
         <NativeTab.Navigator
@@ -67,8 +81,11 @@ const Tab = ({ route }) => {
             />
 
             <NativeTab.Screen name="Profile" component={ProfileScreen} 
-                initialParams={{ prop: prop }}
+                initialParams={{ 
+                    prop: prop, 
+                }}
                 options={{
+                    title: `${currentData.name}`,
                     tabBarIcon: ({focused, size}) => {
                         return <Ionicons name={focused ? "ios-person-sharp" : "ios-person-outline"} color={isDark ? 'white' : 'black'} size={size} 
                         />

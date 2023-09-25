@@ -13,7 +13,7 @@ const MainScreen = () => {
 
     useEffect(() => {
         const subscriber = firestore()
-            .collection('Mumbles').orderBy('orderBy', 'asc').onSnapshot(documentSnapshot => {
+            .collection('Mumbles').orderBy('orderBy', 'desc').onSnapshot(documentSnapshot => {
                 let feedArray = []
                 documentSnapshot.forEach((doc) => {
                     feedArray.push({
@@ -42,7 +42,7 @@ const MainScreen = () => {
 
 const Container = styled.View`
     flex: 1;
-    padding: ${hp(2)}px;
+    padding: 0px ${hp(1)}px;
 `;
 
 const Title = styled.TouchableOpacity`

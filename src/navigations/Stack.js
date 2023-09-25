@@ -31,21 +31,25 @@ const Stack = ({ route }) => {
         const subscriber = firestore().collection('Users').doc(`${prop}`)
             .onSnapshot(documentSnapshot => {
                 setCurrentUser(documentSnapshot.data());
+                // console.log(currentUser)
         });
         return () => subscriber();
     }, [prop]);
 
     const onSaveMumble = async() => {
-            await firestore().collection('Mumbles').add({
-                Mumble: mumble, 
-                ProfileBoolean: first,
-                MusicBoolean: second, 
-                Music: data,
-                masterEmail: currentUser.email,
-                masterName: first === true && currentUser.name,
-                masterImage: first === true && (currentUser.image ? currentUser.image : ''),
-                orderBy: new Date(),
-            });
+        await firestore().collection('Mumbles').add({
+            Mumble: mumble, 
+            ProfileBoolean: first,
+            MusicBoolean: second, 
+            Music: data,
+            masterEmail: currentUser.email,
+            masterName: first === true && currentUser.name,
+            masterImage: first === true && (currentUser.image ? currentUser.image : ''),
+            orderBy: new Date(),
+        });
+        await firestore().collection('Users').doc(`${prop}`).update({
+            mumbleCount: currentUser.mumbleCount + 1,
+        })
         Cancle();
     };
 
@@ -73,7 +77,6 @@ const Stack = ({ route }) => {
 
             }}>
             <NativeStack.Screen name="Write" component={Write}
-                initialParams={{ prop1: prop }}
                 options={{
                     title: '',
                     headerShadowVisible: false,
@@ -103,7 +106,6 @@ const Stack = ({ route }) => {
             />
 
             <NativeStack.Screen name="selectOption" component={WriteOption}
-                initialParams={{ prop1: prop }}
                 options={{
                     title: '',
                     headerShadowVisible: false,
@@ -121,7 +123,7 @@ const Stack = ({ route }) => {
             />
 
             <NativeStack.Screen name="Setup" component={Setup}
-                initialParams={{ prop1: prop }}
+                initialParams={{ prop: prop }}
                 options={{
                     title: '설정',
                     headerShadowVisible: false,

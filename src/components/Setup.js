@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { Alert, useColorScheme } from "react-native";
 import auth from '@react-native-firebase/auth';
 import { useNavigation } from "@react-navigation/native";
 
-const Setup = () => {
+const Setup = ({ route }) => {
+    const { prop } = route.params;
     const navigation = useNavigation();
     const isDark = useColorScheme() === 'dark';
 
@@ -47,7 +48,6 @@ const Container = styled.View`
     padding: ${hp(1)}px ${hp(2)}px;
 `;
 
-const Title = styled.Text``;
 
 const LogoutButton = styled.TouchableOpacity`
     flex-direction: row;

@@ -5,9 +5,7 @@ import { useColorScheme } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useWriteContext } from "../context/WriteContext";
 
-
-const Write = ({ route }) => {
-    const { prop1 } = route.params;
+const Write = () => {
     const navigation = useNavigation();
     const isDark = useColorScheme() === 'dark';
     // console.log('write', route.params.prop3)
