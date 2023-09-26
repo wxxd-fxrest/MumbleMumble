@@ -72,6 +72,9 @@ const Tab = ({ route }) => {
             }}>
 
             <NativeTab.Screen name="Mumble" component={MainScreen} 
+                initialParams={{ 
+                    prop: prop, 
+                }}
                 options={{
                     tabBarLabel: "Home",
                     tabBarIcon: ({focused, size}) => {

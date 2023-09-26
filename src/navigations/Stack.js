@@ -43,9 +43,10 @@ const Stack = ({ route }) => {
             MusicBoolean: second, 
             Music: data,
             masterEmail: currentUser.email,
-            masterName: first === true && currentUser.name,
-            masterImage: first === true && (currentUser.image ? currentUser.image : ''),
+            // masterName: first === true && currentUser.name,
+            // masterImage: first === true && (currentUser.image ? currentUser.image : ''),
             orderBy: new Date(),
+            LikeUser: [],
         });
         await firestore().collection('Users').doc(`${prop}`).update({
             mumbleCount: currentUser.mumbleCount + 1,

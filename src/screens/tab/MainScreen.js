@@ -6,7 +6,8 @@ import firestore from '@react-native-firebase/firestore';
 import Mumble from "../../components/Mumble";
 import { useNavigation } from "@react-navigation/native";
 
-const MainScreen = () => {
+const MainScreen = ({ route }) => {
+    const { prop } = route.params;
     const isDark = useColorScheme() === 'dark';
     const navigation = useNavigation();
     const [mumbleData, setMumbleData] = useState([]);
@@ -33,7 +34,7 @@ const MainScreen = () => {
                 keyExtractor={(item) => item.DocID + ""}
                 showsVerticalScrollIndicator={false}
                 renderItem={({item}) => (
-                    <Mumble item={item}/>
+                    <Mumble item={item} prop={prop}/>
                 )} 
             />
         </Container>

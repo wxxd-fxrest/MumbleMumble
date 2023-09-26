@@ -12,6 +12,7 @@ const RootNavigation = createNativeStackNavigator();
 
 const Root = () => {
     const [currentUser, setCurrentUser] = useState({});
+    
     useEffect(() => {
         setCurrentUser(auth().currentUser);
     }, [currentUser]);
