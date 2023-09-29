@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { useColorScheme } from "react-native";
+import { Alert, useColorScheme } from "react-native";
 import styled from "styled-components";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import EmptyImg from "../../src/assets/Mumble.png";
@@ -19,13 +19,14 @@ const MumbleScreen = ({ route: {params} }) => {
     const [currentMumble, setCurrentMumble] = useState([]);
     const [masterData, setMasterData] = useState([]);
 
-    // console.log('prop', item)
+    // console.log('prop', item.DocID)
+    // console.log(prop)
 
     useEffect(() => {
         const subscriber = firestore().collection('Users').doc(`${item.Data.masterEmail}`)
             .onSnapshot(documentSnapshot => {
                 setMasterData(documentSnapshot.data());
-                console.log(documentSnapshot.data());
+                // console.log(documentSnapshot.data());
         });
 
         return () => subscriber();
@@ -42,14 +43,16 @@ const MumbleScreen = ({ route: {params} }) => {
     }, [item]);
 
     useEffect(() => {
-        if (currentMumble.LikeUser) {
-            if (currentMumble.LikeUser.includes(prop) === true) {
-                setIsLiked(true);
-            } else if (currentMumble.LikeUser.includes(prop) === false) {
-                setIsLiked(false);
+        if(currentMumble) {
+            if (currentMumble.LikeUser) {
+                if (currentMumble.LikeUser.includes(prop) === true) {
+                    setIsLiked(true);
+                } else if (currentMumble.LikeUser.includes(prop) === false) {
+                    setIsLiked(false);
+                }
             }
         }
-    }, [currentMumble.LikeUser, isLiked]);
+    }, [currentMumble, isLiked]);
 
     const toggleLike = async() => {
         if(currentMumble.LikeUser.includes(prop) === true) {
@@ -65,6 +68,39 @@ const MumbleScreen = ({ route: {params} }) => {
         }
     };
 
+    const onDelete = () => {
+        if(item.DocID) {
+            Alert.alert(
+                '질문을 삭제하시겠습니까?',
+                '삭제 시 복구할 수 없으며, 답변도 함께 삭제됩니다.',
+                [
+                    {
+                        text: "No",
+                        onPress: () => console.log("no"),
+                        style: "destructive"
+                    },
+                    {
+                        text: "Yes",
+                        onPress: async() => {
+                            await firestore()
+                                .collection('Mumbles').doc(`${item.DocID}`)
+                                .delete().then(() => {
+                                    console.log('User deleted!');
+                            });
+                            await firestore().collection('Users').doc(`${prop}`).update({
+                                mumbleCount: masterData.mumbleCount - 1,
+                            })
+                            navigation.goBack();
+                        }
+                    },
+                ],
+                {
+                    cancelable: true,
+                },
+            );
+        }
+    };
+
     return (
         <Container>
             <ProfileContainer>
@@ -75,23 +111,27 @@ const MumbleScreen = ({ route: {params} }) => {
                     <ProfileImg source={masterData ? {uri: masterData.profileImgURL} : EmptyImg}/>
                     <Name isDark={isDark}> {masterData.name} </Name>
                 </>}
-                <DeleteBtn>
-                    <MaterialCommunityIcons name="delete-alert-outline" color={isDark ? 'white' : 'black'} size={26} />
-                </DeleteBtn>
+                {item.Data.masterEmail === prop && 
+                    <DeleteBtn onPress={onDelete}>
+                        <MaterialCommunityIcons name="delete-alert-outline" color={isDark ? 'white' : 'black'} size={26} />
+                    </DeleteBtn>
+                }
             </ProfileContainer>
-            <MumbleContainer>
-                <MumbleText isDark={isDark}> {currentMumble.Mumble} </MumbleText>
-                <LikeBtn>
-                    {isLiked ? <>
-                        <LikeText isDark={isDark}> {currentMumble.LikeUser ? currentMumble.LikeUser.length : 0}명이 공감합니다. </LikeText>                    
-                        <FontAwesome name="heart" size={20} color={isDark ? "#B00020" : "red"} onPress={toggleLike} />
-                    </> : <>
-                        <LikeText isDark={isDark}> {currentMumble.LikeUser ? currentMumble.LikeUser.length : 0}명이 공감합니다. </LikeText>                    
-                        <FontAwesome name="heart-o" size={20} color={isDark ? "white" : "black"} onPress={toggleLike} /> 
-                    </>}
-                </LikeBtn>
-            </MumbleContainer>
-            <CommentScreen prop={prop}/>
+            {currentMumble &&
+                <MumbleContainer>
+                    <MumbleText isDark={isDark}> {currentMumble.Mumble} </MumbleText>
+                    <LikeBtn>
+                        {isLiked ? <>
+                            <LikeText isDark={isDark}> {currentMumble.LikeUser ? currentMumble.LikeUser.length : 0}명이 공감합니다. </LikeText>                    
+                            <FontAwesome name="heart" size={20} color={isDark ? "#B00020" : "red"} onPress={toggleLike} />
+                        </> : <>
+                            <LikeText isDark={isDark}> {currentMumble.LikeUser ? currentMumble.LikeUser.length : 0}명이 공감합니다. </LikeText>                    
+                            <FontAwesome name="heart-o" size={20} color={isDark ? "white" : "black"} onPress={toggleLike} /> 
+                        </>}
+                    </LikeBtn>
+                </MumbleContainer>
+            }
+            <CommentScreen prop={prop} docID={item.DocID}/>
         </Container>
     )
 };
@@ -132,7 +172,8 @@ const MumbleText = styled.Text`
     color: ${(props) => (props.isDark ? "white" : "black")};
     margin: ${hp(1)}px 0px;
     font-size: ${hp(1.5)}px;;
-    padding: ${hp(1)}px 0px;
+    font-weight: 500;
+    padding: ${hp(0.8)}px 0px;
 `;
 
 const LikeBtn = styled.View`
