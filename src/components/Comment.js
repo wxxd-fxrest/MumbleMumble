@@ -8,14 +8,14 @@ import { Alert, useColorScheme } from "react-native";
 
 const Comment = ({ item, prop, docID }) => {
     const isDark = useColorScheme() === 'dark';
-    const [currentData, setCurrentData] = useState([]);
-    // console.log('item', item)
+    const [commentUser, setCommentUser] = useState([]);
+    // console.log('item', item);
 
     useEffect(() => {
-        const subscriber = firestore().collection('Users').doc(`${prop}`)
+        const subscriber = firestore().collection('Users').doc(`${item.Data.masterEmail}`)
         .onSnapshot(documentSnapshot => {
-            setCurrentData(documentSnapshot.data());
-            // console.log('currentData', currentData);
+            setCommentUser(documentSnapshot.data());
+            // console.log('currentData', commentUser);
         });
 
         return () => subscriber();
@@ -53,14 +53,16 @@ const Comment = ({ item, prop, docID }) => {
     return (
         <Container>
             <ProfileContainer>
-                <ProfileImg source={currentData ? {uri: currentData.profileImgURL} : EmptyImg}/>
+                <ProfileImg source={commentUser ? {uri: commentUser.profileImgURL} : EmptyImg}/>
                 <NameComment>
-                    <ProfileName isDark={isDark}> {currentData.name} </ProfileName>
+                    <ProfileName isDark={isDark}> {commentUser.name} </ProfileName>
                     <CommentText isDark={isDark}> {item.Data.Comment} </CommentText>
                 </NameComment>
-                <DeleteComment onPress={onDelete}>
-                    <Feather name="more-vertical" size={20} color={isDark ? "white" : "black"} />
-                </DeleteComment>
+                {prop === item.Data.masterEmail &&
+                    <DeleteComment onPress={onDelete}>
+                        <Feather name="more-vertical" size={20} color={isDark ? "white" : "black"} />
+                    </DeleteComment>
+                }
             </ProfileContainer>
         </Container>
     )
@@ -85,6 +87,8 @@ const ProfileImg = styled.Image`
 
 const NameComment = styled.View`
     width: 75%;
+    /* background-color: yellow; */
+    margin-right: ${wp(3)}px;
 `;
 
 const ProfileName = styled.Text`
@@ -99,6 +103,8 @@ const CommentText = styled.Text`
     padding: ${wp(1)}px;
 `;
 
-const DeleteComment = styled.TouchableOpacity``;
+const DeleteComment = styled.TouchableOpacity`
+    /* background-color: yellowgreen; */
+`;
 
 export default Comment;

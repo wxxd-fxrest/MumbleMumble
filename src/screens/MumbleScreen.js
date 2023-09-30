@@ -55,13 +55,13 @@ const MumbleScreen = ({ route: {params} }) => {
     }, [currentMumble, isLiked]);
 
     const toggleLike = async() => {
-        if(currentMumble.LikeUser.includes(prop) === true) {
-            await firestore().collection('Mumbles').doc(`${item}`).update({
+        if(item.Data.LikeUser.includes(prop) === true) {
+            await firestore().collection('Mumbles').doc(`${item.DocID}`).update({
                 LikeUser: firestore.FieldValue.arrayRemove(prop), // itemToRemove는 제거하려는 데이터
             });
             setIsLiked(false);
-        } else if(currentMumble.LikeUser.includes(prop) === false) {
-            await firestore().collection('Mumbles').doc(`${item}`).update({
+        } else if(item.Data.LikeUser.includes(prop) === false) {
+            await firestore().collection('Mumbles').doc(`${item.DocID}`).update({
                 LikeUser: firestore.FieldValue.arrayUnion(prop)
             })
             setIsLiked(true);
@@ -166,6 +166,7 @@ const DeleteBtn = styled.TouchableOpacity`
 
 const MumbleContainer = styled.View`
     flex-direction: column;
+    padding-bottom: ${hp(2)}px;
 `;
 
 const MumbleText = styled.Text`

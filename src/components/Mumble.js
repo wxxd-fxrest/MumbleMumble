@@ -13,7 +13,7 @@ const Mumble = ({item, prop}) => {
     const [isLiked, setIsLiked] = useState(false);
     const [masterData, setMasterData] = useState([]);
 
-    // console.log(item.Data.masterEmail)
+    console.log(item.Data)
 
     useEffect(() => {
         const subscriber = firestore().collection('Users').doc(`${item.Data.masterEmail}`)

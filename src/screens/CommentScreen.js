@@ -8,6 +8,9 @@ import EmptyImg from "../../src/assets/Mumble.png";
 import { darkTheme, lightTheme } from "../../colors";
 import { Ionicons } from '@expo/vector-icons'; 
 import Comment from "../components/Comment";
+import { Dimensions } from 'react-native';
+
+const {width: SCREENWIDTH, height : SCREENHEIGHT} = Dimensions.get("window");
 
 const CommentScreen = ({prop, docID}) => {
     const isDark = useColorScheme() === 'dark';
@@ -35,12 +38,12 @@ const CommentScreen = ({prop, docID}) => {
                         Data: doc.data(),
                     })
                     setCommentData(feedArray);
-                    console.log('commentData', commentData);
+                    // console.log('commentData', commentData);
                 });
             });
 
         return () => subscriber();
-    }, [commentData.Data]);
+    }, [commentData.Data, docID]);
 
 
     const onSaveMumble = async() => {
@@ -67,8 +70,14 @@ const CommentScreen = ({prop, docID}) => {
                 renderItem={({item}) => (
                     <Comment item={item} prop={prop} docID={docID}/>
                 )} 
+                extraData={commentData} // commentData가 변경될 때 FlatList 리렌더링
             />
         }
+            {/* <CommentBox >
+                {commentData.map((c, i) => (
+                    <Comment key={i} item={c} prop={prop} docID={docID}/>
+                ))}
+            </CommentBox> */}
 
             <CommentInputContiner isDark={isDark}>
                 <ProfileContainer>
@@ -104,7 +113,7 @@ const TItle = styled.Text`
     color: ${(props) => (props.isDark ? "white" : "black")};
 `;
 
-const CommentBox = styled.View`
+const CommentBox = styled.ScrollView`
     flex: 1;
 `;
 
@@ -126,8 +135,8 @@ const Empty = styled.View`
 
 const CommentInputContiner = styled.View`
     flex-direction: row;
-    /* background-color: yellow; */
-    align-items: flex-start;
+    align-items: center;
+    justify-content: center;
     padding: ${wp(1.5)}px;
     height: 60px;
 `;
@@ -146,7 +155,7 @@ const CommentInput = styled.TextInput`
 const SaveBtn = styled.TouchableOpacity`
     position: absolute;
     right: ${wp(2)}px;
-    top: ${hp(0.8)}px;
+    top: ${hp(0.9)}px;
 `;
 
 export default CommentScreen; 
