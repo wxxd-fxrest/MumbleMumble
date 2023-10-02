@@ -1,10 +1,10 @@
 import React, { useRef, useState } from "react";
-import styled from "styled-components";
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { Alert, Switch, useColorScheme } from "react-native";
-import { Ionicons } from '@expo/vector-icons'; 
 import { REACT_APP_API_KEY } from '@env';
 import axios from 'axios';
+import styled from "styled-components";
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
+import { Ionicons } from '@expo/vector-icons'; 
 import Loading from "./Loading";
 import { useWriteContext } from "../context/WriteContext";
 

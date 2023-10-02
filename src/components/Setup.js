@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { Alert, useColorScheme } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import auth from '@react-native-firebase/auth';
 import styled from "styled-components";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { Alert, useColorScheme } from "react-native";
-import auth from '@react-native-firebase/auth';
-import { useNavigation } from "@react-navigation/native";
 
 const Setup = ({ route }) => {
     const { prop } = route.params;

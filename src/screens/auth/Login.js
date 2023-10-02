@@ -1,9 +1,9 @@
 import React, { useRef, useState } from "react";
 import { ActivityIndicator, Alert, useColorScheme } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import auth from '@react-native-firebase/auth';
 import { styled } from "styled-components";
 import { darkTheme, lightTheme } from "../../../colors";
-import { useNavigation } from "@react-navigation/native";
 
 const Login = ({navigation: {navigate}}) => {
     const [email, setEmail] = useState("");

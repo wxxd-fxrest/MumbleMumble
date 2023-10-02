@@ -1,17 +1,12 @@
 import React, { useEffect } from "react";
+import { useColorScheme } from "react-native";
 import styled from "styled-components";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { useColorScheme } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import { useWriteContext } from "../context/WriteContext";
 
 const Write = () => {
-    const navigation = useNavigation();
     const isDark = useColorScheme() === 'dark';
-    // console.log('write', route.params.prop3)
     const { write, setWrite, mumble, setMumble } = useWriteContext();
-
-    // console.log(write);
 
     useEffect(() => {
         if (mumble !== '') {

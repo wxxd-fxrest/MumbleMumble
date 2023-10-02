@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { Alert, useColorScheme } from "react-native";
+import firestore from '@react-native-firebase/firestore';
 import styled from "styled-components";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import EmptyImg from "../../src/assets/Mumble.png";
-import firestore from '@react-native-firebase/firestore';
 import { Feather } from '@expo/vector-icons'; 
-import { Alert, useColorScheme } from "react-native";
 
 const Comment = ({ item, prop, docID }) => {
     const isDark = useColorScheme() === 'dark';

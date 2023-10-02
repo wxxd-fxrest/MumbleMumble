@@ -1,17 +1,16 @@
-import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, Alert, FlatList, useColorScheme, View } from "react-native";
+import { ActivityIndicator, FlatList, useColorScheme, LayoutAnimation } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import * as ImagePicker from 'expo-image-picker';
+import { Image } from "react-native-svg";
+import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 import styled from "styled-components";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
-import firestore from '@react-native-firebase/firestore';
 import CurrentMumble from "../../components/CurrentMumble";
 import EmptyImg from "../../../src/assets/Mumble.png";
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import { Feather } from '@expo/vector-icons'; 
-import * as ImagePicker from 'expo-image-picker';
-import storage from '@react-native-firebase/storage';
-import { LayoutAnimation } from "react-native";
-import { Image } from "react-native-svg";
 
 const ProfileScreen = ({ route }) => {
     const { prop } = route.params;

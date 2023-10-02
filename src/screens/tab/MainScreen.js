@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { FlatList, useColorScheme } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { FlatList, useColorScheme } from "react-native";
 import firestore from '@react-native-firebase/firestore';
 import Mumble from "../../components/Mumble";
-import { useNavigation } from "@react-navigation/native";
 
 const MainScreen = ({ route }) => {
     const { prop } = route.params;

@@ -1,19 +1,22 @@
-import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { useColorScheme } from "react-native";
-import styled from "styled-components";
-import EmptyImg from "../../src/assets/Mumble.png";
-import { FontAwesome } from '@expo/vector-icons'; 
+import { useNavigation } from "@react-navigation/native";
 import firestore from '@react-native-firebase/firestore';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
+import styled from "styled-components";
+import { FontAwesome } from '@expo/vector-icons'; 
+import { Ionicons } from '@expo/vector-icons'; 
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import EmptyImg from "../../src/assets/Mumble.png";
 
 const Mumble = ({item, prop}) => {
     const isDark = useColorScheme() === 'dark';
     const navigation = useNavigation();
     const [isLiked, setIsLiked] = useState(false);
     const [masterData, setMasterData] = useState([]);
+    const [music, setMusic] = useState(false);
 
-    console.log(item.Data)
+    // console.log(item.Data.Music)
 
     useEffect(() => {
         const subscriber = firestore().collection('Users').doc(`${item.Data.masterEmail}`)
@@ -64,26 +67,51 @@ const Mumble = ({item, prop}) => {
             }}
         >
             <ProfileContainer>
-                {item.Data.ProfileBoolean === false ? <>
-                    <ProfileImg source={EmptyImg}/>
-                    <Name isDark={isDark}> 익명 Mumble 입니다. </Name>
-                </> : <>
-                    <ProfileImg source={masterData ? {uri: masterData.profileImgURL} : EmptyImg}/>
-                    <Name isDark={isDark}> {masterData.name} </Name>
-                </>}
-            </ProfileContainer>
-            <MumbleContainer>
-                <MumbleText isDark={isDark}> {item.Data.Mumble} </MumbleText>
-                <LikeBtn>
-                    {isLiked ? <>
-                        <LikeText isDark={isDark}> {item.Data.LikeUser ? item.Data.LikeUser.length : 0}명이 공감합니다. </LikeText>                    
-                        <FontAwesome name="heart" size={20} color={isDark ? "#B00020" : "red"} onPress={toggleLike} />
+                <ProfileBox>
+                    {item.Data.ProfileBoolean === false ? <>
+                        <ProfileImg source={EmptyImg}/>
+                        <Name isDark={isDark}> 익명 Mumble 입니다. </Name>
                     </> : <>
-                        <LikeText isDark={isDark}> {item.Data.LikeUser ? item.Data.LikeUser.length : 0}명이 공감합니다. </LikeText>                    
-                        <FontAwesome name="heart-o" size={20} color={isDark ? "white" : "black"} onPress={toggleLike} /> 
+                        <ProfileImg source={masterData ? {uri: masterData.profileImgURL} : EmptyImg}/>
+                        <Name isDark={isDark}> {masterData.name} </Name>
                     </>}
-                </LikeBtn>
-            </MumbleContainer>
+                </ProfileBox>
+                {item.Data.Music.artist &&
+                    <MusicSwitch onPress={() => setMusic(!music)}>
+                        <Ionicons name="musical-note-outline" size={24} color={isDark ? "white" : "black"} />
+                    </MusicSwitch>
+                }
+            </ProfileContainer>
+            {music === false ? 
+                <MumbleContainer>
+                        <MumbleText isDark={isDark}> {item.Data.Mumble} </MumbleText>
+                    <LikeBtn>
+                        {isLiked ? <>
+                            <LikeText isDark={isDark}> {item.Data.LikeUser ? item.Data.LikeUser.length : 0}명이 공감합니다. </LikeText>                    
+                            <FontAwesome name="heart" size={20} color={isDark ? "#B00020" : "red"} onPress={toggleLike} />
+                        </> : <>
+                            <LikeText isDark={isDark}> {item.Data.LikeUser ? item.Data.LikeUser.length : 0}명이 공감합니다. </LikeText>                    
+                            <FontAwesome name="heart-o" size={20} color={isDark ? "white" : "black"} onPress={toggleLike} /> 
+                        </>}
+                    </LikeBtn>
+                </MumbleContainer>
+            :
+                <MusicContainer>
+                    <MusicBox>
+                        <MaterialCommunityIcons name="archive-music" size={34} color={isDark ? "white" : "black"} />
+                        <MusicText isDark={isDark}> {item.Data.Music.name} - {item.Data.Music.artist} </MusicText>
+                    </MusicBox>
+                    <LikeBtn>
+                        {isLiked ? <>
+                            <LikeText isDark={isDark}> {item.Data.LikeUser ? item.Data.LikeUser.length : 0}명이 공감합니다. </LikeText>                    
+                            <FontAwesome name="heart" size={20} color={isDark ? "#B00020" : "red"} onPress={toggleLike} />
+                        </> : <>
+                            <LikeText isDark={isDark}> {item.Data.LikeUser ? item.Data.LikeUser.length : 0}명이 공감합니다. </LikeText>                    
+                            <FontAwesome name="heart-o" size={20} color={isDark ? "white" : "black"} onPress={toggleLike} /> 
+                        </>}
+                    </LikeBtn>
+                </MusicContainer>
+            }
         </Container>
     )
 };
@@ -99,7 +127,15 @@ const Container = styled.TouchableOpacity`
 const ProfileContainer = styled.View`
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
 `;
+
+const ProfileBox = styled.View`
+    flex-direction: row;
+    align-items: center;
+`;
+
+const MusicSwitch = styled.TouchableOpacity``;
 
 const ProfileImg = styled.Image`
     width: 50px;
@@ -135,6 +171,24 @@ const LikeText = styled.Text`
     font-size: ${hp(1.3)}px;;
     padding-right: ${wp(1)}px;
     color: ${(props) => (props.isDark ? "white" : "black")};
+`;
+
+const MusicContainer = styled.View`
+    flex-direction: column;
+`;
+
+const MusicBox = styled.View`
+    /* background-color: yellowgreen; */
+    justify-content: center;
+    align-items: center;
+    padding: ${wp(5)}px;
+`;
+
+const MusicText = styled.Text`
+    color: ${(props) => (props.isDark ? "white" : "black")};
+    margin-top: ${hp(1)}px;
+    font-size: ${hp(1.5)}px;;
+    /* padding: ${hp(1)}px; */
 `;
 
 export default Mumble; 

@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, useColorScheme } from "react-native";
+import { FlatList, useColorScheme, Dimensions, KeyboardAvoidingView, Platform } from "react-native";
+import firestore from '@react-native-firebase/firestore';
 import styled from "styled-components";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { View, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
-import firestore from '@react-native-firebase/firestore';
 import EmptyImg from "../../src/assets/Mumble.png";
 import { darkTheme, lightTheme } from "../../colors";
 import { Ionicons } from '@expo/vector-icons'; 
 import Comment from "../components/Comment";
-import { Dimensions } from 'react-native';
 
 const {width: SCREENWIDTH, height : SCREENHEIGHT} = Dimensions.get("window");
 

@@ -1,17 +1,17 @@
 import React, { useEffect } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useColorScheme } from "react-native";
-import Write from "../components/Write";
-import { Ionicons } from '@expo/vector-icons'; 
-import styled from "styled-components";
-import { FontAwesome } from '@expo/vector-icons'; 
 import { useNavigation } from "@react-navigation/native";
-import WriteOption from "../components/WriteOption";
-import { MaterialCommunityIcons } from '@expo/vector-icons'; 
-import { useWriteContext } from "../context/WriteContext";
 import firestore from '@react-native-firebase/firestore';
+import { useWriteContext } from "../context/WriteContext";
 import { useCurrentContext } from "../context/CurrentContext";
+import Write from "../components/Write";
+import WriteOption from "../components/WriteOption";
 import Setup from "../components/Setup";
+import styled from "styled-components";
+import { Ionicons } from '@expo/vector-icons'; 
+import { FontAwesome } from '@expo/vector-icons'; 
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 
 const NativeStack = createNativeStackNavigator();
 

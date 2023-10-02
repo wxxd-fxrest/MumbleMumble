@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import auth from '@react-native-firebase/auth';
 import AppRouter from './src/navigations/AppRouter';
-// import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 
 const App = () => {
     const [isAuthentication, setIsAuthentication] = useState(false); 
@@ -17,7 +16,6 @@ const App = () => {
             }
         })
     }, [currentUser]);
-
 
 	return (
 		<AppRouter isAuthentication={isAuthentication}/>

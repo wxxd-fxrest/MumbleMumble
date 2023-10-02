@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from '@react-navigation/native';
-import Root from './Root';
-import AuthRoot from './AuthRoot';
 import { WriteProvider } from '../context/WriteContext';
 import { CurrentProvider } from '../context/CurrentContext';
-// import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
+import Root from './Root';
+import AuthRoot from './AuthRoot';
 
 const Stack = createNativeStackNavigator();
 

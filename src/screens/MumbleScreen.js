@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
 import { Alert, useColorScheme } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import firestore from '@react-native-firebase/firestore';
 import styled from "styled-components";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import EmptyImg from "../../src/assets/Mumble.png";
 import { FontAwesome } from '@expo/vector-icons'; 
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
-import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
+import { Ionicons } from '@expo/vector-icons'; 
 import CommentScreen from "./CommentScreen";
-
+                
 const MumbleScreen = ({ route: {params} }) => {
     const item = params.item;
     const prop = params.prop;
@@ -18,7 +18,8 @@ const MumbleScreen = ({ route: {params} }) => {
     const [isLiked, setIsLiked] = useState(false);
     const [currentMumble, setCurrentMumble] = useState([]);
     const [masterData, setMasterData] = useState([]);
-
+    const [music, setMusic] = useState(false);
+                    
     // console.log('prop', item.DocID)
     // console.log(prop)
 
@@ -119,16 +120,38 @@ const MumbleScreen = ({ route: {params} }) => {
             </ProfileContainer>
             {currentMumble &&
                 <MumbleContainer>
-                    <MumbleText isDark={isDark}> {currentMumble.Mumble} </MumbleText>
-                    <LikeBtn>
-                        {isLiked ? <>
-                            <LikeText isDark={isDark}> {currentMumble.LikeUser ? currentMumble.LikeUser.length : 0}명이 공감합니다. </LikeText>                    
-                            <FontAwesome name="heart" size={20} color={isDark ? "#B00020" : "red"} onPress={toggleLike} />
-                        </> : <>
-                            <LikeText isDark={isDark}> {currentMumble.LikeUser ? currentMumble.LikeUser.length : 0}명이 공감합니다. </LikeText>                    
-                            <FontAwesome name="heart-o" size={20} color={isDark ? "white" : "black"} onPress={toggleLike} /> 
-                        </>}
-                    </LikeBtn>
+                    {music === false ?
+                        <MumbleText isDark={isDark}> {currentMumble.Mumble} </MumbleText>
+                    :
+                        <MusicBox>
+                            <MaterialCommunityIcons name="archive-music" size={34} color={isDark ? "white" : "black"} />
+                            <MusicText isDark={isDark}> {item.Data.Music.name} - {item.Data.Music.artist} </MusicText>
+                        </MusicBox> 
+                    }
+                    <BottomBox>
+                        {item.Data.Music.artist ?
+                            <MusicSwitch onPress={() => setMusic(!music)} 
+                                style={{
+                                    backgroundColor: isDark ? "#353535" : "#BDBDBD", 
+                                    borderRadius: 50, 
+                                    padding: 3,
+                                }}
+                            >
+                                <Ionicons name="musical-note-outline" size={20} color={isDark ? "white" : "black"} />
+                            </MusicSwitch>
+                            :
+                            <MusicSwitch />
+                        }
+                        <LikeBtn>
+                            {isLiked ? <>
+                                <LikeText isDark={isDark}> {currentMumble.LikeUser ? currentMumble.LikeUser.length : 0}명이 공감합니다. </LikeText>                    
+                                <FontAwesome name="heart" size={20} color={isDark ? "#B00020" : "red"} onPress={toggleLike} />
+                            </> : <>
+                                <LikeText isDark={isDark}> {currentMumble.LikeUser ? currentMumble.LikeUser.length : 0}명이 공감합니다. </LikeText>                    
+                                <FontAwesome name="heart-o" size={20} color={isDark ? "white" : "black"} onPress={toggleLike} /> 
+                            </>}
+                        </LikeBtn>
+                    </BottomBox>
                 </MumbleContainer>
             }
             <CommentScreen prop={prop} docID={item.DocID}/>
@@ -169,12 +192,20 @@ const MumbleContainer = styled.View`
     padding-bottom: ${hp(2)}px;
 `;
 
+const BottomBox = styled.View`
+    justify-content: space-between;
+    flex-direction: row;
+    
+`;
+
+const MusicSwitch = styled.TouchableOpacity``;
+
 const MumbleText = styled.Text`
     color: ${(props) => (props.isDark ? "white" : "black")};
-    margin: ${hp(1)}px 0px;
+    margin: ${hp(1.5)}px 0px;
     font-size: ${hp(1.5)}px;;
     font-weight: 500;
-    padding: ${hp(0.8)}px 0px;
+    padding: ${hp(1)}px 0px;
 `;
 
 const LikeBtn = styled.View`
@@ -188,5 +219,20 @@ const LikeText = styled.Text`
     padding-right: ${wp(1)}px;
     color: ${(props) => (props.isDark ? "white" : "black")};
 `;
+
+const MusicBox = styled.View`
+    /* background-color: yellowgreen; */
+    justify-content: center;
+    align-items: center;
+    padding: ${wp(5)}px;
+`;
+
+const MusicText = styled.Text`
+    color: ${(props) => (props.isDark ? "white" : "black")};
+    margin-top: ${hp(1)}px;
+    font-size: ${hp(1.5)}px;;
+    /* padding: ${hp(1)}px; */
+`;
+
 
 export default MumbleScreen;

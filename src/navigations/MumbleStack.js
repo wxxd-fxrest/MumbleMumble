@@ -1,9 +1,9 @@
 import React from "react";
+import { useColorScheme } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
-import MumbleScreen from "../screens/MumbleScreen";
-import { useColorScheme } from "react-native";
 import styled from "styled-components";
+import MumbleScreen from "../screens/MumbleScreen";
 import { Ionicons } from '@expo/vector-icons'; 
 
 const MumbleNativeStack = createNativeStackNavigator();

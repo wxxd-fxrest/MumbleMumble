@@ -1,8 +1,8 @@
-import { useNavigation } from "@react-navigation/native";
 import React, { useEffect } from "react";
 import { Animated, Easing } from "react-native";
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
+import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components";
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import LogoImg from "../../src/assets/CookHub-Welcome-removebg-preview.png";
 
 const WelcomeScreen = () => {

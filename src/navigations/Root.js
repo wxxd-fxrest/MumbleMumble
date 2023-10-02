@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import auth from '@react-native-firebase/auth';
 import styled from "styled-components";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import WelcomeScreen from "../screens/WelcomeScreen";
 import Tab from "./Tab";
 import Stack from "./Stack";
-import auth from '@react-native-firebase/auth';
 import MumbleStack from "./MumbleStack";
 
 const RootNavigation = createNativeStackNavigator(); 

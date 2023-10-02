@@ -1,14 +1,14 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React, { useEffect, useState } from "react";
 import { useColorScheme } from "react-native";
-import styled from "styled-components";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MainScreen from "../screens/tab/MainScreen";
 import ProfileScreen from "../screens/tab/ProfileScreen";
+import firestore from '@react-native-firebase/firestore';
+import styled from "styled-components";
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from '@expo/vector-icons'; 
-import firestore from '@react-native-firebase/firestore';
 
 const NativeTab = createBottomTabNavigator();
 
