@@ -1,12 +1,14 @@
 import React, { useEffect } from "react";
-import { Animated, Easing } from "react-native";
+import { Animated, Easing, useColorScheme } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
-import LogoImg from "../../src/assets/CookHub-Welcome-removebg-preview.png";
+import LightLogo from "../../src/assets/Mumble-light.png";
+import DarkLogo from "../../src/assets/Mumble-dark.png";
 
 const AuthWelcome = () => {
     const navigation = useNavigation();
+    const isDark = useColorScheme() === 'dark';
     const circle1Scale = new Animated.Value(1);
     const circle2Scale = new Animated.Value(1);
 
@@ -41,29 +43,24 @@ const AuthWelcome = () => {
     }, []);
 
     return (
-        <Container>
+        <Container isDark={isDark}>
             <Animated.View
                     style={{
-                    backgroundColor: "rgba(255, 0, 0, 0.2)",
+                    backgroundColor: isDark ? "rgba(9, 93, 158, 0.35)" : "rgba(221, 84, 15, 0.35)",
                     borderRadius: 1000,
-                    padding: hp(5.5),
+                    padding: hp(5),
                     transform: [{ scale: circle1Scale }],
                 }}>
                 <Animated.View
                     style={{
-                        backgroundColor: "rgba(255, 0, 0, 0.2)",
+                        backgroundColor: isDark ? "rgba(9, 93, 158, 0.55)" : "rgba(221, 84, 15, 0.55)",
                         borderRadius: 1000,
-                        padding: hp(1),
+                        padding: hp(0.5),
                         transform: [{ scale: circle2Scale }],
                     }}>
-                    <LogoImage source={LogoImg} />
+                    <LogoImage source={isDark ? DarkLogo : LightLogo} />
                 </Animated.View>
             </Animated.View>
-
-            <TextContainer>
-                <Title style={{fontSize: hp(7)}}>Cook Hub</Title>
-                <SubTitle style={{fontSize: hp(1.5)}}>야! 너두 백종원 될 수 있어!</SubTitle>
-            </TextContainer>
         </Container>
     );
 };
@@ -72,29 +69,13 @@ const Container = styled.View`
     flex: 1;
     justify-content: center;
     align-items: center;
-    background-color: #f2c098;
+    background-color: ${(props) => (props.isDark ? "black" : "white")};
 `;
 
 const LogoImage = styled.Image`
-    width: ${hp(23)}px;
-    height: ${hp(23)}px;
+    width: ${hp(30)}px;
+    height: ${hp(30)}px;
     border-radius: 300px;
-`;
-
-const TextContainer = styled.View`
-    align-items: center;
-    justify-content: space-between;
-    align-items: flex-end;
-`;
-
-const Title = styled.Text`
-    font-weight: bold;
-    color: rgba(255, 0, 0, 0.6);
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); 
-`;
-
-const SubTitle = styled.Text`
-    color: rgba(255, 0, 0, 0.6);
 `;
 
 export default AuthWelcome; 

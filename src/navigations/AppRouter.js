@@ -10,6 +10,7 @@ const Stack = createNativeStackNavigator();
 
 const AppRouter = ({isAuthentication}) => {
 	useEffect(() => {}, [isAuthentication]);
+	
 	return (
 		<CurrentProvider>
 			<WriteProvider>
