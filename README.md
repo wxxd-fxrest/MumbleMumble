@@ -11,4 +11,4 @@ React-Native + Firebase + Api (04)
   소셜 로그인
   회원 정보 수정
 
-[!REDME_MUMBLE](https://github.com/wxxd-fxrest/MumbleMumble/blob/master/REDME_MUMBLE.png)
+![REDME_MUMBLE](https://github.com/wxxd-fxrest/MumbleMumble/blob/master/REDME_MUMBLE.png)
