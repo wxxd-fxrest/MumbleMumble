@@ -11,4 +11,6 @@ React-Native + Firebase + Api (04)
   소셜 로그인
   회원 정보 수정
 
+[Notion](https://puffy-poinsettia-b48.notion.site/MumbleMumble-0cf92022e12745e28ba5c66fa7cd9a68?pvs=4)
+
 ![REDME_MUMBLE](https://github.com/wxxd-fxrest/MumbleMumble/blob/master/REDME_MUMBLE.png)
